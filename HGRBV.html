@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HG Rasikananda Bhakti Vriksha</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #fff;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url("https://iskconnewtown.com/wp-content/uploads/2024/02/nitai-gauranga-iskconnewtown-kolkata-6.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    .overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 0;
+        border-radius: 16px;
+        background: rgba(0, 0, 0, 0.45);
+        width: 90%;
+        max-width: 900px;
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(6px);
+    }
+
+    /* HEADER (no tilak) */
+    .header-bar {
+        width: 100%;
+        background: lightblue;
+        padding: 18px 0;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 0 25px 8px rgba(173, 216, 230, 0.9);
+    }
+
+    .header-text {
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: #000;
+        line-height: 1.4;
+        white-space: pre-line;
+    }
+
+    /* SMALL BUTTONS */
+    .button {
+        padding: 6px 14px;
+        font-size: 0.9rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        background: #ffd166;
+        color: #333;
+        font-weight: 600;
+        margin: 5px;
+    }
+
+    .button:hover {
+        background: #ffca3a;
+    }
+
+    .back-button {
+        background: #ff9b9b;
+        color: #000;
+    }
+
+    .back-button:hover {
+        background: #ff7b7b;
+    }
+
+    .button-row {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    select {
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: none;
+        font-size: 1rem;
+        min-width: 180px;
+    }
+
+    /* DOCUMENT PANEL */
+    .doc-panel {
+        flex: 1;
+        margin: 15px;
+        background: white;
+        border-radius: 10px;
+        overflow-y: auto;
+        padding: 0;
+        display: none;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .doc-panel::-webkit-scrollbar {
+        width: 6px;
+    }
+    .doc-panel::-webkit-scrollbar-thumb {
+        background: #bbb;
+        border-radius: 10px;
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 10px;
+    }
+
+    /* SPINNER */
+    .spinner {
+        display: none;
+        margin-top: 20px;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #ffd166;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        animation: spin 1s linear infinite;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* FOOTER */
+    .footer {
+        padding: 10px;
+        font-size: 1rem;
+        color: #fff;
+        text-shadow: 0 0 5px black;
+        line-height: 1.4;
+    }
+
+    @media (max-width: 600px) {
+        .header-text {
+            font-size: 1.4rem;
+        }
+
+        .button {
+            font-size: 0.85rem;
+            padding: 6px 12px;
+        }
+
+        select {
+            width: 85%;
+            font-size: 0.95rem;
+        }
+    }
+</style>
+</head>
+
+<body>
+    <div class="overlay"></div>
+
+    <div class="container">
+
+        <!-- HEADING -->
+        <div class="header-bar">
+            <div class="header-text">Welcome to
+"HG Rasikananda Bhakti Vriksha"</div>
+        </div>
+
+        <!-- ADMIN / USER BUTTONS -->
+        <div class="button-row">
+            <button class="button" onclick="showAdminLogin()">Admin View</button>
+            <button class="button" onclick="showUserView()">User View</button>
+        </div>
+
+        <!-- BACK BUTTON -->
+        <button id="backButton" class="button back-button" style="display:none;" onclick="goBack()">Back</button>
+
+        <!-- ADMIN LOGIN -->
+        <div id="adminLogin" style="display:none; margin-top:10px;">
+            <p>Enter Code:</p>
+            <input type="password" id="adminCode" style="padding:8px; border-radius:6px;">
+            <button class="button" onclick="validateAdmin()">Submit</button>
+        </div>
+
+        <!-- USER DROPDOWN -->
+        <div id="userSection" style="display:none; margin-top:10px;">
+            <label>Select your name:</label><br>
+            <select id="userName" onchange="loadUserWeeks()">
+                <option value="" disabled selected>-- Select your name --</option>
+                <option value="Akhila">Akhila</option>
+                <option value="Bhavesh">Bhavesh</option>
+                <option value="Subuddhi">Subuddhi Raya</option>
+                <!-- Always last -->
+                <option value="Kalki">Greatest Mithyacharya</option>
+            </select>
+        </div>
+
+        <!-- WEEK BUTTONS -->
+        <div id="weekButtons" style="display:none; margin-top:10px;">
+            <button class="button" onclick="loadWeek('previous')">Previous Week</button>
+            <button class="button" onclick="loadWeek('current')">Current Week</button>
+            <button class="button" onclick="loadWeek('next')">Next Week</button>
+        </div>
+
+        <!-- SPINNER -->
+        <div id="spinner" class="spinner"></div>
+
+        <!-- DOCUMENT PANEL -->
+        <div id="docPanel" class="doc-panel">
+            <iframe id="docFrame"></iframe>
+        </div>
+
+        <!-- FOOTER WITH MAHAMANTRA -->
+        <div class="footer">
+            Hare Krsna Hare Krsna Krsna Krsna Hare Hare<br>
+            Hare Rama Hare Rama Rama Rama Hare Hare
+        </div>
+
+    </div>
+
+<script>
+    const links = {
+        "Kalki": {
+            previous: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQS_rmAiou9XTJjUaTKDl0rqATu8r0PksjgqhzFO_SbQaNc?em=2",
+            current: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQQI9Wgn9jLJRKryKqOTVtw2ATXNsm_Rkd5xtLgTwlxsxOo?em=2",
+            next: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQS2DQF4xNZ1TKMlhhOeoh2OAWPTC8KPeluJOOEoi3SNQII?em=2"
+        },
+        "Akhila": {
+            previous: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQT0wtgwghToSpSvL14Pwa7DAXHVr1ChUa5q10mKs4jmrzE?em=2",
+            current: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQTV3n1xXMvwR5Ab-byEd69eAUEArTDD2Oe9Xyc_CNcZ5KE?em=2",
+            next: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQQ6LG4haKJASYSRb01xddgKAd7DuB1bXzdJmswbPNnKIpU?em=2"
+        },
+        "Bhavesh": {
+            previous: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQSjtUXWrQ-dT6iuzBbcTIbnAW4ku8xOcbK1dzzHjw2q8SY?em=2",
+            current: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQRbmWmzPd9SRaSNzjxtTA_SAfcfJr231WfkoNLvg_4x6No?em=2",
+            next: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQTEUSd56SiVTqiDk6-rsXqcAZU5FO6Z867AgFnt1BLqGqM?em=2"
+        },
+        "Subuddhi": {
+            previous: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQQa9DYtCvJvSqx4JMv_iBZhAawD_klpysT6JpMIE88SXCU?em=2",
+            current: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQQFNobANPEbSZW40Onaed84AfmbBQ_xK1kEUMfDhDTpvPU?em=2",
+            next: "https://1drv.ms/w/c/bbcecf9f01cf2da9/IQR4we4OTrgnT7Flvm1Wft5uAeJq9UeyCTMedKVNLqYmUh8?em=2"
+        }
+    };
+
+    function showAdminLogin() {
+        document.getElementById("adminLogin").style.display = "block";
+        document.getElementById("userSection").style.display = "none";
+        document.getElementById("weekButtons").style.display = "none";
+        document.getElementById("docPanel").style.display = "none";
+        document.getElementById("spinner").style.display = "none";
+        document.getElementById("backButton").style.display = "block";
+    }
+
+    function showUserView() {
+        document.getElementById("userSection").style.display = "block";
+        document.getElementById("adminLogin").style.display = "none";
+        document.getElementById("weekButtons").style.display = "none";
+        document.getElementById("docPanel").style.display = "none";
+        document.getElementById("spinner").style.display = "none";
+        document.getElementById("backButton").style.display = "block";
+    }
+
+    function validateAdmin() {
+        const code = document.getElementById("adminCode").value;
+        if (code === "Gauranga") {
+            alert("Admin Access Granted");
+            document.getElementById("userSection").style.display = "block";
+        } else {
+            alert("Incorrect Code");
+        }
+    }
+
+    function loadUserWeeks() {
+        document.getElementById("weekButtons").style.display = "block";
+    }
+
+    function loadWeek(weekType) {
+        const user = document.getElementById("userName").value;
+        const url = links[user][weekType];
+
+        if (url) {
+            document.getElementById("spinner").style.display = "block";
+            document.getElementById("docPanel").style.display = "none";
+
+            setTimeout(() => {
+                document.getElementById("docFrame").src = url;
+                document.getElementById("spinner").style.display = "none";
+                document.getElementById("docPanel").style.display = "block";
+            }, 1200);
+        }
+    }
+
+    function goBack() {
+        document.getElementById("adminLogin").style.display = "none";
+        document.getElementById("userSection").style.display = "none";
+        document.getElementById("weekButtons").style.display = "none";
+        document.getElementById("docPanel").style.display = "none";
+        document.getElementById("spinner").style.display = "none";
+        document.getElementById("backButton").style.display = "none";
+    }
+</script>
+
+</body>
+</html>
