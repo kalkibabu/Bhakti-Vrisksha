@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HG Rasikananda Bhakti Vriksha - Sadhana Chart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url("https://iskconnewtown.com/wp-content/uploads/2024/02/nitai-gauranga-iskconnewtown-kolkata-6.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+    }
+
+    .overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+    }
+
+    .container {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 0;
+        border-radius: 16px;
+        background: rgba(0, 0, 0, 0.45);
+        width: 95%;
+        max-width: 1100px;
+        max-height: 95vh;
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(6px);
+        overflow: hidden;
+    }
+
+    .header-bar {
+        width: 100%;
+        background: lightblue;
+        padding: 14px 8px;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 0 20px 6px rgba(173, 216, 230, 0.9);
+    }
+
+    .header-text {
+        font-size: 1.7rem;
+        font-weight: 700;
+        color: #000;
+        line-height: 1.4;
+        white-space: pre-line;
+    }
+
+    .sub-header {
+        font-size: 0.9rem;
+        color: #000;
+        margin-top: 4px;
+    }
+
+    .top-controls {
+        padding: 8px 12px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 16px;
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .top-controls label {
+        font-size: 0.9rem;
+    }
+
+    .text-input, select {
+        padding: 4px 8px;
+        border-radius: 6px;
+        border: none;
+        font-size: 0.9rem;
+    }
+
+    .counsellor-label {
+        color: #FFDF00; /* GOLD */
+        font-weight: 600;
+    }
+
+    .week-info {
+        font-size: 0.9rem;
+        margin-top: 4px;
+        color: #f1f1f1;
+    }
+
+    .button {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        background: #ffd166;
+        color: #333;
+        font-weight: 600;
+        margin: 2px;
+    }
+
+    .button:hover {
+        background: #ffca3a;
+    }
+
+    .button-secondary {
+        background: #a5d8ff;
+    }
+
+    .button-secondary:hover {
+        background: #74c0fc;
+    }
+
+    .content {
+        flex: 1;
+        overflow: auto;
+        padding: 8px 12px 4px 12px;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #ffffff;
+        color: #000;
+        border-radius: 10px;
+        overflow: hidden;
+        font-size: 0.85rem;
+        min-width: 700px;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 4px;
+        vertical-align: top;
+    }
+
+    th {
+        background: #f1f5f9;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .row-label {
+        width: 22%;
+        font-weight: 600;
+        text-align: left;
+        background: #f8fafc;
+    }
+
+    .row-note {
+        font-size: 0.7rem;
+        color: #555;
+        margin-top: 2px;
+    }
+
+    .cell-input {
+        width: 100%;
+        border: none;
+        font-size: 0.8rem;
+        padding: 2px;
+        box-sizing: border-box;
+        resize: vertical;
+        min-height: 22px;
+        font-family: inherit;
+    }
+
+    .cell-input:focus {
+        outline: 1px solid #60a5fa;
+        background: #e0f2fe;
+    }
+
+    .realizations {
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        padding: 4px;
+        resize: vertical;
+        min-height: 50px;
+        box-sizing: border-box;
+        font-family: inherit;
+    }
+
+    .footer {
+        padding: 8px;
+        font-size: 0.95rem;
+        color: #fff;
+        text-shadow: 0 0 5px black;
+        line-height: 1.4;
+    }
+
+    .status {
+        font-size: 0.8rem;
+        color: #d1fae5;
+        margin-bottom: 4px;
+        min-height: 1em;
+    }
+
+    @media (max-width: 800px) {
+        .header-text {
+            font-size: 1.3rem;
+        }
+        table {
+            font-size: 0.75rem;
+        }
+        .row-label {
+            width: 28%;
+        }
+    }
+</style>
+</head>
+
+<body>
+    <div class="overlay"></div>
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="header-bar">
+            <div class="header-text">Weekly Sadhana Chart
+"HG Rasikananda Bhakti Vriksha"</div>
+            <div class="sub-header">
+                yuktāhāra-vihārasya yukta-ceṣṭasya karmasu ... (Bg 6.17)
+            </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="top-controls">
+            <div>
+                <label>Devotee:&nbsp;</label>
+                <select id="userName">
+                    <option value="" disabled selected>-- Select your name --</option>
+                    <option value="Akhila">Akhila</option>
+                    <option value="Bhavesh">Bhavesh</option>
+                    <option value="Subuddhi">Sai Mohan</option>
+                    <option value="Kalki">Greatest Mithyacharya</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Initiated Name:&nbsp;</label>
+                <input id="fullName" class="text-input" type="text" placeholder="Your Initiated name">
+            </div>
+
+            <div>
+                <label class="counsellor-label">Counsellor:&nbsp;</label>
+		<input class="text-input" type="text" value="HG Rasikananda Das" disabled style="color:#FFDF00; font-weight:600;">
+
+            </div>
+
+            <div>
+                <button class="button button-secondary" onclick="changeWeek(-1)">Previous Week</button>
+                <button class="button button-secondary" onclick="setCurrentWeek()">Current Week</button>
+                <button class="button button-secondary" onclick="changeWeek(1)">Next Week</button>
+                <div id="weekInfo" class="week-info"></div>
+            </div>
+
+            <div>
+                <button class="button" onclick="saveChart()">Save</button>
+                <button class="button" onclick="loadChart()">Load</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="status" class="status"></div>
+<div class="content">
+    <div id="status" class="status"></div>
+<!-- SADHANA TABLE WRAPPER -->
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th style="width:22%;">Item</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <!-- 1. Wake-up time -->
+            <tr>
+                <td class="row-label">
+                    What time did I wake up?
+                    <div class="row-note">Before Brahma Muhurta is ideal.</div>
+                </td>
+                <td><input class="cell-input" data-row="wakeUp" data-day="mon"></td>
+                <td><input class="cell-input" data-row="wakeUp" data-day="tue"></td>
+                <td><input class="cell-input" data-row="wakeUp" data-day="wed"></td>
+                <td><input class="cell-input" data-row="wakeUp" data-day="thu"></td>
+                <td><input class="cell-input" data-row="wakeUp" data-day="fri"></td>
+                <td><input class="cell-input" data-row="wakeUp" data-day="sat"></td>
+                <td><input class="cell-input" data-row="wakeUp" data-day="sun"></td>
+            </tr>
+
+            <!-- 2. Rounds -->
+            <tr>
+                <td class="row-label">
+                    How many rounds did I chant?
+                    <div class="row-note">Minimum 16 rounds daily are recommended.</div>
+                </td>
+                <td><input class="cell-input" data-row="rounds" data-day="mon"></td>
+                <td><input class="cell-input" data-row="rounds" data-day="tue"></td>
+                <td><input class="cell-input" data-row="rounds" data-day="wed"></td>
+                <td><input class="cell-input" data-row="rounds" data-day="thu"></td>
+                <td><input class="cell-input" data-row="rounds" data-day="fri"></td>
+                <td><input class="cell-input" data-row="rounds" data-day="sat"></td>
+                <td><input class="cell-input" data-row="rounds" data-day="sun"></td>
+            </tr>
+
+            <!-- 3. Chanting quality -->
+            <tr>
+                <td class="row-label">
+                    How was the quality of my chanting?
+                    <div class="row-note">Chant one mantra at a time for better focus and quality.</div>
+                </td>
+                <td><input class="cell-input" data-row="chantQuality" data-day="mon"></td>
+                <td><input class="cell-input" data-row="chantQuality" data-day="tue"></td>
+                <td><input class="cell-input" data-row="chantQuality" data-day="wed"></td>
+                <td><input class="cell-input" data-row="chantQuality" data-day="thu"></td>
+                <td><input class="cell-input" data-row="chantQuality" data-day="fri"></td>
+                <td><input class="cell-input" data-row="chantQuality" data-day="sat"></td>
+                <td><input class="cell-input" data-row="chantQuality" data-day="sun"></td>
+            </tr>
+
+            <!-- 4. Lecture -->
+            <tr>
+                <td class="row-label">
+                    Did I hear any lecture?
+                    <div class="row-note">Morning and evening hearing is recommended.</div>
+                </td>
+                <td><input class="cell-input" data-row="lecture" data-day="mon"></td>
+                <td><input class="cell-input" data-row="lecture" data-day="tue"></td>
+                <td><input class="cell-input" data-row="lecture" data-day="wed"></td>
+                <td><input class="cell-input" data-row="lecture" data-day="thu"></td>
+                <td><input class="cell-input" data-row="lecture" data-day="fri"></td>
+                <td><input class="cell-input" data-row="lecture" data-day="sat"></td>
+                <td><input class="cell-input" data-row="lecture" data-day="sun"></td>
+            </tr>
+
+            <!-- 5. Reading -->
+            <tr>
+                <td class="row-label">
+                    How long did I read Srila Prabhupada's books?
+                </td>
+                <td><input class="cell-input" data-row="reading" data-day="mon"></td>
+                <td><input class="cell-input" data-row="reading" data-day="tue"></td>
+                <td><input class="cell-input" data-row="reading" data-day="wed"></td>
+                <td><input class="cell-input" data-row="reading" data-day="thu"></td>
+                <td><input class="cell-input" data-row="reading" data-day="fri"></td>
+                <td><input class="cell-input" data-row="reading" data-day="sat"></td>
+                <td><input class="cell-input" data-row="reading" data-day="sun"></td>
+            </tr>
+
+            <!-- 6. Arati -->
+            <tr>
+                <td class="row-label">
+                    Did I attend or perform any arati?
+                    <div class="row-note">Mangal arati and Gaura arati are recommended.</div>
+                </td>
+                <td><input class="cell-input" data-row="arati" data-day="mon"></td>
+                <td><input class="cell-input" data-row="arati" data-day="tue"></td>
+                <td><input class="cell-input" data-row="arati" data-day="wed"></td>
+                <td><input class="cell-input" data-row="arati" data-day="thu"></td>
+                <td><input class="cell-input" data-row="arati" data-day="fri"></td>
+                <td><input class="cell-input" data-row="arati" data-day="sat"></td>
+                <td><input class="cell-input" data-row="arati" data-day="sun"></td>
+            </tr>
+
+            <!-- 7. Prasadam -->
+            <tr>
+                <td class="row-label">
+                    Did I eat only Krishna prasadam?
+                    <div class="row-note">Eating non-prasadam can have several ill effects.</div>
+                </td>
+                <td><input class="cell-input" data-row="prasadam" data-day="mon"></td>
+                <td><input class="cell-input" data-row="prasadam" data-day="tue"></td>
+                <td><input class="cell-input" data-row="prasadam" data-day="wed"></td>
+                <td><input class="cell-input" data-row="prasadam" data-day="thu"></td>
+                <td><input class="cell-input" data-row="prasadam" data-day="fri"></td>
+                <td><input class="cell-input" data-row="prasadam" data-day="sat"></td>
+                <td><input class="cell-input" data-row="prasadam" data-day="sun"></td>
+            </tr>
+
+            <!-- 8. Exercise -->
+            <tr>
+                <td class="row-label">
+                    Did I do any exercise?
+                    <div class="row-note">Healthy body and mind are essential for self-realization.</div>
+                </td>
+                <td><input class="cell-input" data-row="exercise" data-day="mon"></td>
+                <td><input class="cell-input" data-row="exercise" data-day="tue"></td>
+                <td><input class="cell-input" data-row="exercise" data-day="wed"></td>
+                <td><input class="cell-input" data-row="exercise" data-day="thu"></td>
+                <td><input class="cell-input" data-row="exercise" data-day="fri"></td>
+                <td><input class="cell-input" data-row="exercise" data-day="sat"></td>
+                <td><input class="cell-input" data-row="exercise" data-day="sun"></td>
+            </tr>
+
+            <!-- 9. Sleep time -->
+            <tr>
+                <td class="row-label">
+                    What time did I sleep?
+                    <div class="row-note">Sleeping early helps waking up early.</div>
+                </td>
+                <td><input class="cell-input" data-row="sleep" data-day="mon"></td>
+                <td><input class="cell-input" data-row="sleep" data-day="tue"></td>
+                <td><input class="cell-input" data-row="sleep" data-day="wed"></td>
+                <td><input class="cell-input" data-row="sleep" data-day="thu"></td>
+                <td><input class="cell-input" data-row="sleep" data-day="fri"></td>
+                <td><input class="cell-input" data-row="sleep" data-day="sat"></td>
+                <td><input class="cell-input" data-row="sleep" data-day="sun"></td>
+            </tr>
+
+            <!-- 10. Regulative principles -->
+            <tr>
+                <td class="row-label">
+                    Did I follow 4 regulative principles?
+                    <div class="row-note">Following regulative principles helps maintain purity.</div>
+                </td>
+                <td><input class="cell-input" data-row="principles" data-day="mon"></td>
+                <td><input class="cell-input" data-row="principles" data-day="tue"></td>
+                <td><input class="cell-input" data-row="principles" data-day="wed"></td>
+                <td><input class="cell-input" data-row="principles" data-day="thu"></td>
+                <td><input class="cell-input" data-row="principles" data-day="fri"></td>
+                <td><input class="cell-input" data-row="principles" data-day="sat"></td>
+                <td><input class="cell-input" data-row="principles" data-day="sun"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<!-- REALIZATIONS -->
+<div style="margin-top:8px; text-align:left; color:#fff; font-size:0.85rem;">
+    <strong>Any realizations for this week? Or anything related to your practice of Krishna Consciousness:</strong>
+</div>
+
+<textarea id="realizations" class="realizations" placeholder="Write your realizations here..."></textarea>
+        </div> <!-- end of .content -->
+
+        <!-- FOOTER -->
+        <div class="footer">
+            Hare Krsna Hare Krsna Krsna Krsna Hare Hare<br>
+            Hare Rama Hare Rama Rama Rama Hare Hare
+        </div>
+
+    </div> <!-- end of .container -->
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+
+<script>
+    // 🔥 Replace with your actual Firebase config
+    const firebaseConfig = {
+  apiKey: "AIzaSyDxJY7_VirTqoXMYbjjFzsHaAz-KSbQEj8",
+  authDomain: "bhakti-vriksha-2e295.firebaseapp.com",
+  projectId: "bhakti-vriksha-2e295",
+  storageBucket: "bhakti-vriksha-2e295.firebasestorage.app",
+  messagingSenderId: "159402779568",
+  appId: "1:159402779568:web:dc0c4a39a0c51d08dcac75",
+  measurementId: "G-5LKYY6YZBC"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+    let currentWeekStart = getMonday(new Date());
+
+    const statusEl = document.getElementById("status");
+    const weekInfoEl = document.getElementById("weekInfo");
+
+    function getMonday(d) {
+        const date = new Date(d);
+        const day = date.getDay();
+        const diff = (day === 0 ? -6 : 1) - day;
+        date.setDate(date.getDate() + diff);
+        date.setHours(0,0,0,0);
+        return date;
+    }
+
+    function formatDate(d) {
+        return d.toISOString().slice(0,10);
+    }
+
+    function updateWeekInfo() {
+        const start = new Date(currentWeekStart);
+        const end = new Date(currentWeekStart.getTime() + WEEK_MS - 1);
+        weekInfoEl.textContent = "Week: " + formatDate(start) + " to " + formatDate(end);
+    }
+
+    function changeWeek(direction) {
+        currentWeekStart = new Date(currentWeekStart.getTime() + direction * WEEK_MS);
+        updateWeekInfo();
+        clearInputs();
+        statusEl.textContent = "";
+    }
+
+    function setCurrentWeek() {
+        currentWeekStart = getMonday(new Date());
+        updateWeekInfo();
+        clearInputs();
+        statusEl.textContent = "";
+    }
+
+    function getWeekKey() {
+        return formatDate(currentWeekStart);
+    }
+
+    function getUserKey() {
+        const user = document.getElementById("userName").value;
+        return user || null;
+    }
+
+    function getFullName() {
+        return document.getElementById("fullName").value.trim();
+    }
+
+    function showStatus(msg, isError=false) {
+        statusEl.textContent = msg;
+        statusEl.style.color = isError ? "#fecaca" : "#d1fae5";
+    }
+
+    function collectDataFromUI() {
+        const inputs = document.querySelectorAll(".cell-input");
+        const data = {};
+        inputs.forEach(input => {
+            const row = input.dataset.row;
+            const day = input.dataset.day;
+            if (!data[row]) data[row] = {};
+            data[row][day] = input.value.trim();
+        });
+        data.realizations = document.getElementById("realizations").value.trim();
+        data.fullName = getFullName();
+        return data;
+    }
+
+    function applyDataToUI(data) {
+        clearInputs(false);
+        if (!data) return;
+
+        const inputs = document.querySelectorAll(".cell-input");
+        inputs.forEach(input => {
+            const row = input.dataset.row;
+            const day = input.dataset.day;
+            if (data[row] && data[row][day] !== undefined) {
+                input.value = data[row][day];
+            }
+        });
+
+        if (data.realizations !== undefined) {
+            document.getElementById("realizations").value = data.realizations;
+        }
+        if (data.fullName !== undefined) {
+            document.getElementById("fullName").value = data.fullName;
+        }
+    }
+
+    function clearInputs(clearName=true) {
+        document.querySelectorAll(".cell-input").forEach(i => i.value = "");
+        document.getElementById("realizations").value = "";
+        if (clearName) document.getElementById("fullName").value = "";
+    }
+
+    function saveChart() {
+        const userKey = getUserKey();
+        if (!userKey) {
+            showStatus("Please select your name before saving.", true);
+            return;
+        }
+
+        const weekKey = getWeekKey();
+        const data = collectDataFromUI();
+
+        db.ref("sadhana/" + userKey + "/" + weekKey).set(data)
+            .then(() => showStatus("Sadhana chart saved successfully."))
+            .catch(err => {
+                console.error(err);
+                showStatus("Error saving data. Check console.", true);
+            });
+    }
+
+    function loadChart() {
+        const userKey = getUserKey();
+        if (!userKey) {
+            showStatus("Please select your name before loading.", true);
+            return;
+        }
+
+        const weekKey = getWeekKey();
+
+        db.ref("sadhana/" + userKey + "/" + weekKey).once("value")
+            .then(snapshot => {
+                const data = snapshot.val();
+                if (data) {
+                    applyDataToUI(data);
+                    showStatus("Sadhana chart loaded.");
+                } else {
+                    clearInputs();
+                    showStatus("No data found for this week.");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                showStatus("Error loading data. Check console.", true);
+            });
+    }
+
+    // Initialize week display
+    setCurrentWeek();
+</script>
+
+</body>
+</html>
+</body>
+</html>
+
