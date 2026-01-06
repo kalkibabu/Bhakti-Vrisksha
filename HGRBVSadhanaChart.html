@@ -6,47 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-@media (max-width: 800px) {
-    .header-text div {
-        font-size: 1.3rem;
-    }
 
-    .top-controls {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .top-controls > div {
-        margin-bottom: 10px;
-    }
-
-    .text-input, select, .button {
-        font-size: 1rem;
-        padding: 10px;
-    }
-
-    table {
-        font-size: 0.75rem;
-        min-width: 1000px; /* force horizontal scroll */
-    }
-
-    .table-wrapper {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .realizations {
-        font-size: 1rem;
-        padding: 10px;
-    }
-
-    .week-info {
-        font-size: 1.1rem;
-    }
+/* ------------------------------
+   GLOBAL MOBILE-FIRST RESET
+------------------------------ */
+* {
+    box-sizing: border-box;
 }
 
-
-/* WELCOME PAGE BACKGROUND (Prabhupada image, no overlay) */
+/* ------------------------------
+   WELCOME PAGE
+------------------------------ */
 #welcomePage {
     position: fixed;
     inset: 0;
@@ -65,21 +35,14 @@
     padding: 20px;
 }
 
-/* WEEK HIGHLIGHT */
-.week-active {
-    border: 2px solid #4ade80 !important;
-    box-shadow: 0 0 6px #4ade80;
-}
-
-/* GLOBAL BODY */
+/* ------------------------------
+   BODY + OVERLAY
+------------------------------ */
 body {
     margin: 0;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: #fff;
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-image: url("https://iskconnewtown.com/wp-content/uploads/2024/02/nitai-gauranga-iskconnewtown-kolkata-6.jpeg");
     background-size: cover;
     background-position: center;
@@ -87,14 +50,15 @@ body {
     position: relative;
 }
 
-/* OVERLAY */
 .overlay {
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.55);
 }
 
-/* MAIN CONTAINER */
+/* ------------------------------
+   MAIN CONTAINER
+------------------------------ */
 .container {
     position: relative;
     z-index: 1;
@@ -104,28 +68,29 @@ body {
     background: rgba(0, 0, 0, 0.45);
     width: 95%;
     max-width: 1100px;
-    max-height: 95vh;
-    display: none; /* hidden until user/admin enters */
+    height: 95vh;
+    display: none;
     flex-direction: column;
     backdrop-filter: blur(6px);
     overflow: hidden;
 }
 
-/* HEADER BAR */
+/* ------------------------------
+   HEADER
+------------------------------ */
 .header-bar {
     width: 100%;
     background: lightblue;
-    padding: 14px 8px;
+    padding: 10px 8px;
     border-radius: 16px 16px 0 0;
     box-shadow: 0 0 20px 6px rgba(173, 216, 230, 0.9);
 }
 
 .header-text {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: #000;
-    line-height: 1.4;
-    white-space: pre-line;
+    line-height: 1.2;
 }
 
 .sub-header {
@@ -134,81 +99,74 @@ body {
     margin-top: 4px;
 }
 
-/* TOP CONTROLS */
+/* ------------------------------
+   TOP CONTROLS
+------------------------------ */
 .top-controls {
-    padding: 8px 12px;
+    padding: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px 16px;
+    gap: 12px;
     background: rgba(0, 0, 0, 0.3);
 }
 
-.top-controls label {
-    font-size: 0.9rem;
-}
-
-.text-input, select {
-    padding: 4px 8px;
+.text-input,
+select {
+    padding: 6px 10px;
     border-radius: 6px;
     border: none;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
-.counsellor-label {
-    color: #FFDF00;
-    font-weight: 600;
-}
-
-/* WEEK INFO */
-.week-info {
-    font-size: 1.3rem;
-    color: #a5d8ff;
-    text-align: center;
-    width: 100%;
-    display: block;
-    font-weight: 600;
-}
-
-/* BUTTONS */
 .button {
-    padding: 6px 12px;
-    font-size: 0.85rem;
+    padding: 8px 14px;
+    font-size: 1rem;
     border-radius: 8px;
     border: none;
     cursor: pointer;
     background: #ffd166;
     color: #333;
     font-weight: 600;
-    margin: 2px;
-}
-
-.button:hover {
-    background: #ffca3a;
 }
 
 .button-secondary {
     background: #a5d8ff;
 }
 
-.button-secondary:hover {
-    background: #74c0fc;
+.button-danger {
+    background: #ff6b6b;
+    color: white;
 }
 
-/* CONTENT AREA */
+/* ------------------------------
+   WEEK INFO
+------------------------------ */
+.week-info {
+    font-size: 1.3rem;
+    color: #a5d8ff;
+    font-weight: 600;
+    margin: 8px 0;
+}
+
+/* ------------------------------
+   CONTENT AREA
+------------------------------ */
 .content {
     flex: 1;
-    overflow: auto;
-    padding: 8px 12px 4px 12px;
+    overflow-y: auto;
+    padding: 10px;
 }
 
-/* TABLE WRAPPER */
+/* ------------------------------
+   TABLE
+------------------------------ */
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-/* TABLE */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -216,31 +174,29 @@ table {
     color: #000;
     border-radius: 10px;
     overflow: hidden;
-    font-size: 0.85rem;
-    min-width: 700px;
+    font-size: 0.95rem;
+    min-width: 900px;
 }
 
 th, td {
     border: 1px solid #ccc;
-    padding: 4px;
+    padding: 6px;
     vertical-align: top;
 }
 
 th {
     background: #f1f5f9;
     font-weight: 600;
-    text-align: center;
 }
 
 .row-label {
-    width: 22%;
+    width: 24%;
     font-weight: 600;
-    text-align: left;
     background: #f8fafc;
 }
 
 .row-note {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: #555;
     margin-top: 2px;
 }
@@ -248,12 +204,9 @@ th {
 .cell-input {
     width: 100%;
     border: none;
-    font-size: 0.8rem;
-    padding: 2px;
-    box-sizing: border-box;
-    resize: vertical;
-    min-height: 22px;
-    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 4px;
+    min-height: 28px;
 }
 
 .cell-input:focus {
@@ -261,51 +214,83 @@ th {
     background: #e0f2fe;
 }
 
+/* ------------------------------
+   REALIZATIONS
+------------------------------ */
 .realizations {
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 6px;
-    font-size: 0.8rem;
-    padding: 4px;
-    resize: vertical;
-    min-height: 50px;
-    box-sizing: border-box;
-    font-family: inherit;
+    font-size: 1rem;
+    padding: 10px;
+    min-height: 70px;
 }
 
-/* FOOTER */
+/* ------------------------------
+   FOOTER
+------------------------------ */
 .footer {
-    padding: 8px;
-    font-size: 0.95rem;
+    padding: 10px;
+    font-size: 1rem;
     color: #fff;
     text-shadow: 0 0 5px black;
-    line-height: 1.4;
 }
 
-/* STATUS */
+/* ------------------------------
+   STATUS
+------------------------------ */
 .status {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     color: #d1fae5;
-    margin-bottom: 4px;
     min-height: 1em;
 }
 
-/* MOBILE */
+/* ------------------------------
+   MOBILE OPTIMIZATION
+------------------------------ */
 @media (max-width: 800px) {
+
     .header-text {
         font-size: 1.3rem;
     }
-    table {
-        font-size: 0.75rem;
+
+    .sub-header {
+        font-size: 0.8rem;
     }
+
+    .top-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .button,
+    .text-input,
+    select {
+        font-size: 1.1rem;
+        padding: 12px;
+    }
+
+    table {
+        font-size: 0.85rem;
+        min-width: 1000px;
+    }
+
     .row-label {
-        width: 28%;
+        width: 30%;
+    }
+
+    .realizations {
+        font-size: 1.1rem;
+        padding: 12px;
+    }
+
+    .week-info {
+        font-size: 1.2rem;
     }
 }
 
 </style>
 
-</style>
 </head>
 <body>
 
