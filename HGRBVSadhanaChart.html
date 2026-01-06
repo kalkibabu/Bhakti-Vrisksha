@@ -6,6 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+@media (max-width: 800px) {
+    .header-text div {
+        font-size: 1.3rem;
+    }
+
+    .top-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .top-controls > div {
+        margin-bottom: 10px;
+    }
+
+    .text-input, select, .button {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    table {
+        font-size: 0.75rem;
+        min-width: 1000px; /* force horizontal scroll */
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .realizations {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .week-info {
+        font-size: 1.1rem;
+    }
+}
+
 
 /* WELCOME PAGE BACKGROUND (Prabhupada image, no overlay) */
 #welcomePage {
