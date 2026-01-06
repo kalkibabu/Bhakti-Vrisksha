@@ -6,17 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
-/* ------------------------------
-   GLOBAL MOBILE-FIRST RESET
------------------------------- */
+/* RESET */
 * {
     box-sizing: border-box;
 }
 
-/* ------------------------------
-   WELCOME PAGE
------------------------------- */
+/* WELCOME PAGE */
 #welcomePage {
     position: fixed;
     inset: 0;
@@ -35,9 +30,7 @@
     padding: 20px;
 }
 
-/* ------------------------------
-   BODY + OVERLAY
------------------------------- */
+/* BODY BACKGROUND + CENTERING */
 body {
     margin: 0;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -48,49 +41,59 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 0;
 }
 
+/* OVERLAY */
 .overlay {
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.55);
+    z-index: 0;
 }
 
-/* ------------------------------
-   MAIN CONTAINER
------------------------------- */
+/* MAIN CONTAINER */
 .container {
     position: relative;
     z-index: 1;
-    text-align: center;
-    padding: 0;
-    border-radius: 16px;
-    background: rgba(0, 0, 0, 0.45);
     width: 95%;
     max-width: 1100px;
-    height: 95vh;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 16px;
+    backdrop-filter: blur(6px);
     display: none;
     flex-direction: column;
-    backdrop-filter: blur(6px);
     overflow: hidden;
 }
 
-/* ------------------------------
-   HEADER
------------------------------- */
+/* HEADER */
 .header-bar {
     width: 100%;
     background: lightblue;
     padding: 10px 8px;
     border-radius: 16px 16px 0 0;
     box-shadow: 0 0 20px 6px rgba(173, 216, 230, 0.9);
+    text-align: center;
 }
 
 .header-text {
+    color: #000;
+}
+
+.header-text-title {
     font-size: 1.6rem;
     font-weight: 700;
-    color: #000;
     line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.header-text-subtitle {
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 .sub-header {
@@ -99,15 +102,13 @@ body {
     margin-top: 4px;
 }
 
-/* ------------------------------
-   TOP CONTROLS
------------------------------- */
+/* TOP CONTROLS */
 .top-controls {
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 12px;
+    gap: 10px 16px;
     background: rgba(0, 0, 0, 0.3);
 }
 
@@ -116,12 +117,18 @@ select {
     padding: 6px 10px;
     border-radius: 6px;
     border: none;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
+.counsellor-label {
+    color: #FFDF00;
+    font-weight: 600;
+}
+
+/* BUTTONS */
 .button {
-    padding: 8px 14px;
-    font-size: 1rem;
+    padding: 6px 12px;
+    font-size: 0.9rem;
     border-radius: 8px;
     border: none;
     cursor: pointer;
@@ -136,31 +143,42 @@ select {
 
 .button-danger {
     background: #ff6b6b;
-    color: white;
+    color: #fff;
 }
 
-/* ------------------------------
-   WEEK INFO
------------------------------- */
+.button:hover {
+    opacity: 0.9;
+}
+
+/* WEEK BUTTON HIGHLIGHT */
+.week-active {
+    border: 2px solid #4ade80 !important;
+    box-shadow: 0 0 6px #4ade80;
+}
+
+/* WEEK INFO */
 .week-info {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: #a5d8ff;
     font-weight: 600;
     margin: 8px 0;
+    text-align: center;
 }
 
-/* ------------------------------
-   CONTENT AREA
------------------------------- */
+/* CONTENT */
 .content {
-    flex: 1;
-    overflow-y: auto;
     padding: 10px;
 }
 
-/* ------------------------------
-   TABLE
------------------------------- */
+/* STATUS */
+.status {
+    font-size: 0.85rem;
+    color: #d1fae5;
+    min-height: 1em;
+    margin-bottom: 4px;
+}
+
+/* TABLE */
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -174,7 +192,7 @@ table {
     color: #000;
     border-radius: 10px;
     overflow: hidden;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     min-width: 900px;
 }
 
@@ -187,11 +205,13 @@ th, td {
 th {
     background: #f1f5f9;
     font-weight: 600;
+    text-align: center;
 }
 
 .row-label {
     width: 24%;
     font-weight: 600;
+    text-align: left;
     background: #f8fafc;
 }
 
@@ -206,7 +226,10 @@ th {
     border: none;
     font-size: 0.9rem;
     padding: 4px;
-    min-height: 28px;
+    box-sizing: border-box;
+    resize: vertical;
+    min-height: 26px;
+    font-family: inherit;
 }
 
 .cell-input:focus {
@@ -214,44 +237,48 @@ th {
     background: #e0f2fe;
 }
 
-/* ------------------------------
-   REALIZATIONS
------------------------------- */
+/* REALIZATIONS */
 .realizations {
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 6px;
-    font-size: 1rem;
-    padding: 10px;
-    min-height: 70px;
+    font-size: 0.9rem;
+    padding: 8px;
+    resize: vertical;
+    min-height: 60px;
+    box-sizing: border-box;
+    font-family: inherit;
 }
 
-/* ------------------------------
-   FOOTER
------------------------------- */
+/* FOOTER */
 .footer {
     padding: 10px;
     font-size: 1rem;
     color: #fff;
     text-shadow: 0 0 5px black;
+    line-height: 1.4;
+    text-align: center;
 }
 
-/* ------------------------------
-   STATUS
------------------------------- */
-.status {
-    font-size: 0.9rem;
-    color: #d1fae5;
-    min-height: 1em;
-}
-
-/* ------------------------------
-   MOBILE OPTIMIZATION
------------------------------- */
+/* MOBILE */
 @media (max-width: 800px) {
 
-    .header-text {
+    body {
+        padding: 10px 0;
+        align-items: flex-start;
+    }
+
+    .container {
+        width: 98%;
+        border-radius: 12px;
+    }
+
+    .header-text-title {
         font-size: 1.3rem;
+    }
+
+    .header-text-subtitle {
+        font-size: 1rem;
     }
 
     .sub-header {
@@ -261,37 +288,37 @@ th {
     .top-controls {
         flex-direction: column;
         align-items: stretch;
+        gap: 6px;
     }
 
     .button,
     .text-input,
     select {
-        font-size: 1.1rem;
-        padding: 12px;
+        font-size: 1rem;
+        padding: 8px 10px;
     }
 
     table {
         font-size: 0.85rem;
-        min-width: 1000px;
+        min-width: 850px;
     }
 
     .row-label {
-        width: 30%;
+        width: 28%;
     }
 
     .realizations {
-        font-size: 1.1rem;
-        padding: 12px;
+        font-size: 1rem;
+        padding: 10px;
     }
 
     .week-info {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 }
-
 </style>
-
 </head>
+
 <body>
 
 <!-- WELCOME PAGE -->
@@ -354,8 +381,8 @@ th {
     <!-- HEADER -->
     <div class="header-bar">
         <div class="header-text">
-            Weekly Sadhana Chart
-            "HG Rasikananda Prabhuji Bhakti Vriksha"
+            <div class="header-text-title">Weekly Sadhana Chart</div>
+            <div class="header-text-subtitle">"HG Rasikananda Prabhuji Bhakti Vriksha"</div>
         </div>
         <div class="sub-header">
             yuktāhāra-vihārasya yukta-ceṣṭasya karmasu ... (Bg 6.17)
@@ -582,7 +609,6 @@ th {
                         <td><input class="cell-input" data-row="sleep" data-day="sat"></td>
                         <td><input class="cell-input" data-row="sleep" data-day="sun"></td>
                     </tr>
-
                     <!-- 10. Regulative principles -->
                     <tr>
                         <td class="row-label">
@@ -644,12 +670,12 @@ th {
     </div>
 
 </div> <!-- end .container -->
+
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
 <script>
-
 // ----------------------
 // HOME BUTTON
 // ----------------------
@@ -955,9 +981,9 @@ function loadChart() {
 // ----------------------
 highlightButton("btnCurrent");
 setCurrentWeek();
-
 </script>
 
 </body>
 </html>
+
 
