@@ -203,16 +203,18 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
         padding: 10px; font-size: 1rem; border-radius: 6px;
     ">
         <option value="" disabled selected>-- Select your name --</option>
-        <option value="Akhila">Akhila Mataji</option>
-        <option value="Heena">Heena Mataji</option>
-        <option value="Ranjana">Ranjana Mataji</option>
-        <option value="Janaki">Janaki Mataji</option>
-        <option value="Bhavesh">Bhavesh Prabhu</option>
-        <option value="Mayur">Mayur Prabhu</option>
-        <option value="Misha">Misha Mataji</option>
-        <option value="Rajarshi">Rajarshi Prabhu</option>
-        <option value="Subuddhi">Sai Mohan Prabhu</option>
-        <option value="Kalki">Greatest Mithyacharya</option>
+                <option value="Akhila">Akhila Mataji</option>
+                <option value="Anita">Anita Mataji</option>
+                <option value="Heena">Heena Mataji</option>
+                <option value="Ranjana">Ranjana Mataji</option>
+                <option value="Janaki">Janaki Mataji</option>
+                <option value="Bhavesh">Bhavesh Prabhu</option>
+                <option value="Mayur">Mayur Prabhu</option>
+                <option value="Madhuri">Madhuri Mataji</option>
+        	<option value="Misha">Misha Mataji</option>
+                <option value="Rajarshi">Rajarshi Prabhu</option>
+                <option value="Subuddhi">Sai Mohan Prabhu</option>
+        	<option value="Kalki">GREATEST MITHYACHARYA</option>
     </select>
 
     <button onclick="enterUserMode()" style="
@@ -246,11 +248,13 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
             <select id="userName">
                 <option value="" disabled selected>-- Select your name --</option>
                 <option value="Akhila">Akhila Mataji</option>
+                <option value="Anita">Anita Mataji</option>
                 <option value="Heena">Heena Mataji</option>
                 <option value="Ranjana">Ranjana Mataji</option>
                 <option value="Janaki">Janaki Mataji</option>
                 <option value="Bhavesh">Bhavesh Prabhu</option>
                 <option value="Mayur">Mayur Prabhu</option>
+                <option value="Madhuri">Madhuri Mataji</option>
         	<option value="Misha">Misha Mataji</option>
                 <option value="Rajarshi">Rajarshi Prabhu</option>
                 <option value="Subuddhi">Sai Mohan Prabhu</option>
@@ -513,11 +517,15 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 /* PASSWORDS */
 const userPasswords = {
     "Akhila": "Krishna123",
+    "Anita": "Govinda108",
     "Heena": "Krishna123",
     "Ranjana": "Krishna123",
     "Janaki": "Krishna123",
     "Bhavesh": "Arjuna456",
+    "Madhuri": "Govinda108",
     "Mayur": "Arjuna456",
+    "Misha": "Arjuna456",
+    "Mithila": "Govinda108",
     "Rajarshi": "Arjuna456",
     "Subuddhi": "Arjuna456",
     "Kalki": "Govinda108"
@@ -558,7 +566,7 @@ function openUserSelect() {
 }
 
 function showWelcomeMessage(name) {
-    const matajis = ["Akhila", "Heena", "Ranjana", "Janaki"];
+    const matajis = ["Akhila", "Heena", "Ranjana", "Janaki", "Misha", "Mithila", "Anita", "Madhuri"];
     if (matajis.includes(name)) {
         alert("Welcome " + name + " Mataji");
     } else {
