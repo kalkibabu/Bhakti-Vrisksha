@@ -10,12 +10,52 @@
 
 /* WELCOME PAGE */
 #welcomePage {
-    position: fixed; inset: 0; width: 100%; height: 100vh;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
     background-image: url("https://iskconnewtown.com/wp-content/uploads/2024/02/nitai-gauranga-iskconnewtown-kolkata-6.jpeg");
-    background-size: cover; background-position: center;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    z-index: 99999; text-align: center; padding: 20px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* important */
+    align-items: center;
+    z-index: 99999;
+    text-align: center;
+    padding: 20px;
 }
+
+
+#welcomeTitle {
+    background: #f8e9b0;
+    padding: 20px 40px;
+    border-radius: 0 0 200px 200px;
+    color: #4a3200;
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+#welcomeArc {
+    width: 100%;
+    max-width: 1100px;
+    margin-top: -20px;
+    margin-bottom: 30px;
+    overflow: visible;
+}
+
+#welcomeArc text {
+    fill: #add8ff;
+    stroke: #004a80;
+    stroke-width: 2.2;
+    font-family: "Segoe UI", sans-serif;
+    font-weight: 800;
+    font-size: clamp(32px, 6vw, 54px);
+}
+
 
 /* DESKTOP FIX — keep Gaura-Nitai fully visible */
 @media (min-width: 900px) {
@@ -27,8 +67,6 @@
         height: 110vh !important;
     }
 }
-
-
 
 /* BODY */
 body {
@@ -172,9 +210,21 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 
 <!-- WELCOME PAGE -->
 <div id="welcomePage">
-    <h1 style="font-size: 2rem; font-weight: 800; color: #f8f4e3; margin-bottom: 30px;">
-        Welcome to HG Rasikananda Prabhuji Bhakti Vriksha
-    </h1>
+<svg id="welcomeArc" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <path id="welcomeCurve" d="M 100 320 Q 800 60 1500 320" />
+  </defs>
+  <text text-anchor="middle">
+    <textPath
+      href="#welcomeCurve"
+      startOffset="50%"
+      textLength="1400"
+      lengthAdjust="spacingAndGlyphs"
+    >
+      Welcome to HG Rasikananda Prabhuji Bhakti Vriksha
+    </textPath>
+  </text>
+</svg>
 
     <button onclick="openAdminLogin()" style="
         padding: 12px 20px; font-size: 1.1rem;
@@ -203,18 +253,18 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
         padding: 10px; font-size: 1rem; border-radius: 6px;
     ">
         <option value="" disabled selected>-- Select your name --</option>
-                <option value="Akhila">Akhila Mataji</option>
-                <option value="Anita">Anita Mataji</option>
-                <option value="Heena">Heena Mataji</option>
-                <option value="Ranjana">Ranjana Mataji</option>
-                <option value="Janaki">Janaki Mataji</option>
-                <option value="Bhavesh">Bhavesh Prabhu</option>
-                <option value="Mayur">Mayur Prabhu</option>
-                <option value="Madhuri">Madhuri Mataji</option>
-        	<option value="Misha">Misha Mataji</option>
-                <option value="Rajarshi">Rajarshi Prabhu</option>
-                <option value="Subuddhi">Sai Mohan Prabhu</option>
-        	<option value="Kalki">GREATEST MITHYACHARYA</option>
+        <option value="Akhila">Akhila Mataji</option>
+        <option value="Anita">Anita Mataji</option>
+        <option value="Heena">Heena Mataji</option>
+        <option value="Ranjana">Ranjana Mataji</option>
+        <option value="Janaki">Janaki Mataji</option>
+        <option value="Bhavesh">Bhavesh Prabhu</option>
+        <option value="Mayur">Mayur Prabhu</option>
+        <option value="Madhuri">Madhuri Mataji</option>
+        <option value="Misha">Misha Mataji</option>
+        <option value="Rajarshi">Rajarshi Prabhu</option>
+        <option value="Subuddhi">Sai Mohan Prabhu</option>
+        <option value="Kalki">GREATEST MITHYACHARYA</option>
     </select>
 
     <button onclick="enterUserMode()" style="
@@ -255,7 +305,7 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
                 <option value="Bhavesh">Bhavesh Prabhu</option>
                 <option value="Mayur">Mayur Prabhu</option>
                 <option value="Madhuri">Madhuri Mataji</option>
-        	<option value="Misha">Misha Mataji</option>
+                <option value="Misha">Misha Mataji</option>
                 <option value="Rajarshi">Rajarshi Prabhu</option>
                 <option value="Subuddhi">Sai Mohan Prabhu</option>
                 <option value="Kalki">Greatest Mithyacharya</option>
@@ -512,8 +562,6 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
 <script>
-
-
 /* PASSWORDS */
 const userPasswords = {
     "Akhila": "Krishna123",
@@ -539,15 +587,6 @@ document.addEventListener("input", function (e) {
     }
 });
 
-/* HOME */
-function goHome() {
-    document.querySelector(".container").style.display = "none";
-    document.getElementById("welcomePage").style.display = "flex";
-    document.getElementById("userSelectPage").style.display = "none";
-    document.getElementById("userName").disabled = false;
-    document.getElementById("status").textContent = "";
-}
-
 /* ADMIN LOGIN */
 function openAdminLogin() {
     const pass = prompt("Enter Admin Passcode:");
@@ -555,9 +594,41 @@ function openAdminLogin() {
         document.getElementById("welcomePage").style.display = "none";
         document.querySelector(".container").style.display = "flex";
         alert("Welcome Admin!");
+
+        const mainSelect = document.getElementById("userName");
+        mainSelect.disabled = false;
+        mainSelect.selectedIndex = 0;
+        mainSelect.value = "";
+
+        clearInputs();
+        document.getElementById("fullName").value = "";
+        document.getElementById("status").textContent = "";
     } else if (pass !== null) {
         alert("Incorrect passcode.");
     }
+}
+
+/* GO HOME */
+function goHome() {
+    // Hide main container
+    document.querySelector(".container").style.display = "none";
+
+    // Show welcome page
+    document.getElementById("welcomePage").style.display = "flex";
+
+    // Hide user select page
+    document.getElementById("userSelectPage").style.display = "none";
+
+    // Reset dropdown
+    const mainSelect = document.getElementById("userName");
+    mainSelect.disabled = false;
+    mainSelect.selectedIndex = 0;
+    mainSelect.value = "";
+
+    // Clear name, chart, status
+    clearInputs();
+    document.getElementById("fullName").value = "";
+    document.getElementById("status").textContent = "";
 }
 
 /* USER LOGIN */
@@ -592,7 +663,8 @@ function enterUserMode() {
     document.getElementById("userSelectPage").style.display = "none";
 
     const mainSelect = document.getElementById("userName");
-    mainSelect.innerHTML = `<option value="${selected}" selected>${selected}</option>`;
+    // IMPORTANT: do NOT replace the innerHTML (so admin still sees full list later)
+    mainSelect.value = selected;
     mainSelect.disabled = true;
 
     showWelcomeMessage(selected);
@@ -766,7 +838,7 @@ function clearInputs(clearName=true) {
     if (clearName) document.getElementById("fullName").value = "";
 }
 
-/* SAVE / LOAD */
+/* SAVE / LOAD + WEEKLY BACKUP */
 function saveChart() {
     const userKey = getUserKey();
     if (!userKey) return showStatus("Please select your name before saving.", true);
@@ -774,8 +846,15 @@ function saveChart() {
     const weekKey = getWeekKey();
     const data = collectDataFromUI();
 
+    // Save main data
     db.ref("sadhana/" + userKey + "/" + weekKey).set(data)
-        .then(() => showStatus("Sadhana chart saved successfully."))
+        .then(() => {
+            showStatus("Sadhana chart saved successfully.");
+
+            // ALSO store a weekly backup snapshot
+            // Path: weeklyBackups/<weekKey>/<userKey>
+            return db.ref("weeklyBackups/" + weekKey + "/" + userKey).set(data);
+        })
         .catch(() => showStatus("Error saving data.", true));
 }
 
@@ -803,14 +882,64 @@ function loadChart() {
 highlightButton("btnCurrent");
 setCurrentWeek();
 
+/* ------------------------------------------------------------------
+   OPTIONAL: AUTOMATIC WEEKLY BACKUP + EMAIL (Firebase Cloud Functions)
+   ------------------------------------------------------------------
+   The following code does NOT run in this HTML file.
+   It is an example to deploy as a Firebase Cloud Function
+   to:
+     - create an automatic weekly backup of ALL sadhana data
+     - email a backup link/file to: kalki.todagala@gmail.com
+--------------------------------------------------------------------*/
+
+/*
+   // In your Firebase Functions project (Node.js):
+
+   const functions = require("firebase-functions");
+   const admin = require("firebase-admin");
+   const nodemailer = require("nodemailer");
+
+   admin.initializeApp();
+
+   // Configure your email transport (e.g., Gmail, SendGrid, etc.)
+   const transporter = nodemailer.createTransport({
+       service: "gmail",
+       auth: {
+           user: "YOUR_EMAIL@gmail.com",
+           pass: "YOUR_APP_PASSWORD"
+       }
+   });
+
+   // Runs every Sunday at 23:59
+   exports.weeklySadhanaBackup = functions.pubsub.schedule("59 23 * * 0")
+       .timeZone("Australia/Perth")
+       .onRun(async (context) => {
+           const db = admin.database();
+
+           // 1. Get all sadhana data
+           const snap = await db.ref("sadhana").once("value");
+           const data = snap.val() || {};
+
+           // 2. Store snapshot under /automaticWeeklyBackups/YYYY-MM-DD
+           const now = new Date();
+           const weekKey = now.toISOString().slice(0,10); // YYYY-MM-DD
+           await db.ref("automaticWeeklyBackups/" + weekKey).set(data);
+
+           // 3. Prepare email
+           const mailOptions = {
+               from: "YOUR_EMAIL@gmail.com",
+               to: "kalki.todagala@gmail.com",
+               subject: "Your Weekly Bhakti Vriksha Sadhana Backup is Ready",
+               text: "Dear Kalki,\n\nHere is your weekly backup of the Bhakti Vriksha sadhana data.\n\nHare Krishna.",
+               html: "<p>Dear Kalki,</p><p>Here is your weekly backup of the Bhakti Vriksha sadhana data.</p><p>Hare Krishna.</p>"
+           };
+
+           await transporter.sendMail(mailOptions);
+
+           return null;
+       });
+*/
+
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
