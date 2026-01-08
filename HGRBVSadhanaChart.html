@@ -27,33 +27,15 @@
 }
 
 
-#welcomeTitle {
-    background: #f8e9b0;
-    padding: 20px 40px;
-    border-radius: 0 0 200px 200px;
-    color: #4a3200;
-    font-size: 2rem;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 40px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-#welcomeArc {
-    width: 100%;
-    max-width: 1100px;
-    margin-top: -10px;
-    margin-bottom: 20px;
-    overflow: visible;
-}
-
-#welcomeArc text {
-    fill: #add8ff;
-    stroke: #004a80;
-    stroke-width: 2.2;
+#welcomePlainTitle {
+    color: #add8ff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
     font-family: "Segoe UI", sans-serif;
-    font-weight: 800;
-    font-size: clamp(26px, 5vw, 52px);
+    font-weight: 700;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: clamp(22px, 6vw, 43px);
 }
 
 
@@ -228,24 +210,9 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 
 <!-- WELCOME PAGE -->
 <div id="welcomePage">
-<svg id="welcomeArc" viewBox="0 0 1800 450" preserveAspectRatio="xMidYMid meet">
-  <defs>
-    <path id="welcomeCurve" d="M 150 350 Q 900 40 1650 350" />
-  </defs>
-
-  <text text-anchor="middle">
-    <textPath
-      href="#welcomeCurve"
-      startOffset="50%"
-      textLength="1500"
-      lengthAdjust="spacingAndGlyphs"
-    >
-      Welcome to HG Rasikananda Prabhuji Bhakti Vriksha
-    </textPath>
-  </text>
-</svg>
-
-
+<h1 id="welcomePlainTitle">
+    Welcome to HG Rasikananda Prabhuji Bhakti Vriksha
+</h1>
 
     <button onclick="openAdminLogin()" style="
         padding: 12px 20px; font-size: 1.1rem;
