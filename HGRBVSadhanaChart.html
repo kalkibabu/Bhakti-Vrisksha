@@ -42,8 +42,8 @@
 #welcomeArc {
     width: 100%;
     max-width: 1100px;
-    margin-top: -20px;
-    margin-bottom: 30px;
+    margin-top: -10px;
+    margin-bottom: 20px;
     overflow: visible;
 }
 
@@ -53,8 +53,9 @@
     stroke-width: 2.2;
     font-family: "Segoe UI", sans-serif;
     font-weight: 800;
-    font-size: clamp(32px, 6vw, 54px);
+    font-size: clamp(26px, 5vw, 52px);
 }
+
 
 
 /* DESKTOP FIX — keep Gaura-Nitai fully visible */
@@ -67,6 +68,24 @@
         height: 110vh !important;
     }
 }
+
+/* MOBILE FIX — ensure arc text fits perfectly */
+@media (max-width: 600px) {
+    #welcomeArc {
+        max-width: 95%;
+        margin-top: -5px;
+    }
+
+    #welcomeArc text {
+        font-size: 26px; /* safe readable size */
+        stroke-width: 1.8;
+    }
+
+    #welcomeArc textPath {
+        textLength: 1100; /* compress slightly more on mobile */
+    }
+}
+
 
 /* BODY */
 body {
@@ -212,19 +231,21 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 <div id="welcomePage">
 <svg id="welcomeArc" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMid meet">
   <defs>
-    <path id="welcomeCurve" d="M 100 320 Q 800 60 1500 320" />
+    <path id="welcomeCurve" d="M 150 300 Q 800 40 1450 300" />
   </defs>
+
   <text text-anchor="middle">
     <textPath
       href="#welcomeCurve"
       startOffset="50%"
-      textLength="1400"
+      textLength="1350"
       lengthAdjust="spacingAndGlyphs"
     >
       Welcome to HG Rasikananda Prabhuji Bhakti Vriksha
     </textPath>
   </text>
 </svg>
+
 
     <button onclick="openAdminLogin()" style="
         padding: 12px 20px; font-size: 1.1rem;
