@@ -72,19 +72,18 @@
 /* MOBILE FIX — ensure arc text fits perfectly */
 @media (max-width: 600px) {
     #welcomeArc {
-        max-width: 95%;
-        margin-top: -5px;
+        width: 100%;
+        max-width: 360px;
+        margin-top: -10px;
+        margin-bottom: 10px;
     }
 
     #welcomeArc text {
-        font-size: 26px; /* safe readable size */
-        stroke-width: 1.8;
-    }
-
-    #welcomeArc textPath {
-        textLength: 1100; /* compress slightly more on mobile */
+        font-size: 22px;
+        stroke-width: 1.4;
     }
 }
+
 
 
 /* BODY */
@@ -229,22 +228,23 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 
 <!-- WELCOME PAGE -->
 <div id="welcomePage">
-<svg id="welcomeArc" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMid meet">
+<svg id="welcomeArc" viewBox="0 0 1800 450" preserveAspectRatio="xMidYMid meet">
   <defs>
-    <path id="welcomeCurve" d="M 150 300 Q 800 40 1450 300" />
+    <path id="welcomeCurve" d="M 150 350 Q 900 40 1650 350" />
   </defs>
 
   <text text-anchor="middle">
     <textPath
       href="#welcomeCurve"
       startOffset="50%"
-      textLength="1350"
+      textLength="1500"
       lengthAdjust="spacingAndGlyphs"
     >
       Welcome to HG Rasikananda Prabhuji Bhakti Vriksha
     </textPath>
   </text>
 </svg>
+
 
 
     <button onclick="openAdminLogin()" style="
