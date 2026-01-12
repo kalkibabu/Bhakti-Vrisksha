@@ -19,13 +19,12 @@
     background-position: center;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* important */
+    justify-content: flex-start;
     align-items: center;
     z-index: 99999;
     text-align: center;
     padding: 20px;
 }
-
 
 #welcomePlainTitle {
     color: #add8ff;
@@ -38,7 +37,29 @@
     font-size: clamp(22px, 6vw, 43px);
 }
 
+/* Welcome page buttons */
+.welcome-btn {
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    margin: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
 
+.welcome-btn-logout {
+    background: #ff6b6b;
+    color: #fff;
+    align-self: flex-end;
+}
+
+.welcome-btn-admin {
+    background: #a5d8ff;
+}
+
+.welcome-btn-user {
+    background: #ffd166;
+}
 
 /* DESKTOP FIX — keep Gaura-Nitai fully visible */
 @media (min-width: 900px) {
@@ -50,23 +71,6 @@
         height: 110vh !important;
     }
 }
-
-/* MOBILE FIX — ensure arc text fits perfectly */
-@media (max-width: 600px) {
-    #welcomeArc {
-        width: 100%;
-        max-width: 360px;
-        margin-top: -10px;
-        margin-bottom: 10px;
-    }
-
-    #welcomeArc text {
-        font-size: 22px;
-        stroke-width: 1.4;
-    }
-}
-
-
 
 /* BODY */
 body {
@@ -190,6 +194,84 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
     text-shadow: 0 0 5px black; text-align: center;
 }
 
+/* LOGIN MODALS (devotional style) */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100000;
+}
+
+.modal-box {
+    background: #e6f4ff;
+    color: #000;
+    padding: 20px 24px;
+    border-radius: 12px;
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 20px rgba(255,215,0,0.6);
+    width: 320px;
+    max-width: 90%;
+    text-align: left;
+}
+
+.modal-title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.modal-subtitle {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 16px;
+}
+
+.modal-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 8px;
+    display: block;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 4px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    font-size: 0.9rem;
+}
+
+.modal-footer {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.modal-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.modal-btn-primary {
+    background: #ffd166;
+    color: #333;
+}
+
+.modal-btn-secondary {
+    background: #a5d8ff;
+    color: #333;
+}
+
 /* MOBILE */
 @media (max-width: 800px) {
     body { padding: 10px 0; }
@@ -210,21 +292,63 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 
 <!-- WELCOME PAGE -->
 <div id="welcomePage">
-<h1 id="welcomePlainTitle">
-    Welcome to HG Rasikananda Prabhuji Bhakti Vriksha
-</h1>
+    <button id="welcomeLogoutBtn" class="welcome-btn welcome-btn-logout" onclick="logout('You have logged out.')">
+        Logout
+    </button>
 
-    <button onclick="openAdminLogin()" style="
-        padding: 12px 20px; font-size: 1.1rem;
-        margin: 10px; border-radius: 8px;
-        background: #a5d8ff; border: none; cursor: pointer;
-    ">Admin View</button>
+    <h1 id="welcomePlainTitle">
+        Welcome to HG Rasikananda Prabhuji Bhakti Vriksha
+    </h1>
 
-    <button onclick="openUserSelect()" style="
-        padding: 12px 20px; font-size: 1.1rem;
-        margin: 10px; border-radius: 8px;
-        background: #ffd166; border: none; cursor: pointer;
-    ">User View</button>
+    <button onclick="openAdminLogin()" class="welcome-btn welcome-btn-admin">
+        Admin View
+    </button>
+
+    <button onclick="openUserSelect()" class="welcome-btn welcome-btn-user">
+        User View
+    </button>
+</div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div id="adminLoginModal" class="modal-backdrop">
+    <div class="modal-box">
+        <div class="modal-title">✨ Hare Krishna ✨</div>
+        <div class="modal-subtitle">Admin Login</div>
+
+        <label class="modal-label" for="adminPassword">Admin Passcode</label>
+        <input id="adminPassword" type="password" class="modal-input" placeholder="Enter admin passcode">
+
+        <label class="modal-label" style="display:flex; align-items:center; gap:6px; font-weight:500;">
+            <input type="checkbox" id="adminSavePassword">
+            Save password
+        </label>
+
+        <div class="modal-footer">
+            <button class="modal-btn modal-btn-secondary" onclick="closeAdminLoginModal()">Cancel</button>
+            <button class="modal-btn modal-btn-primary" onclick="adminLogin()">Login</button>
+        </div>
+    </div>
+</div>
+
+<!-- USER PASSWORD MODAL -->
+<div id="userLoginModal" class="modal-backdrop">
+    <div class="modal-box">
+        <div class="modal-title">✨ Hare Krishna ✨</div>
+        <div class="modal-subtitle" id="userModalTitle">User Login</div>
+
+        <label class="modal-label" for="userPassword">Password</label>
+        <input id="userPassword" type="password" class="modal-input" placeholder="Enter your password">
+
+        <label class="modal-label" style="display:flex; align-items:center; gap:6px; font-weight:500;">
+            <input type="checkbox" id="userSavePassword">
+            Save password
+        </label>
+
+        <div class="modal-footer">
+            <button class="modal-btn modal-btn-secondary" onclick="closeUserLoginModal()">Cancel</button>
+            <button class="modal-btn modal-btn-primary" onclick="userLogin()">Login</button>
+        </div>
+    </div>
 </div>
 
 <!-- USER SELECT PAGE -->
@@ -251,8 +375,8 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
         <option value="Madhuri">Madhuri Mataji</option>
         <option value="Misha">Misha Mataji</option>
         <option value="Rajarshi">Rajarshi Prabhu</option>
-        <option value="Subuddhi">Sai Mohan Prabhu</option>
-        <option value="Kalki">GREATEST MITHYACHARYA</option>
+        <option value="Subuddhi">Subuddhi Raya Prabhu</option>
+        <option value="Kalki">Kalki Prabhu</option>
     </select>
 
     <button onclick="enterUserMode()" style="
@@ -295,8 +419,8 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
                 <option value="Madhuri">Madhuri Mataji</option>
                 <option value="Misha">Misha Mataji</option>
                 <option value="Rajarshi">Rajarshi Prabhu</option>
-                <option value="Subuddhi">Sai Mohan Prabhu</option>
-                <option value="Kalki">Greatest Mithyacharya</option>
+                <option value="Subuddhi">Subuddhi Raya Prabhu</option>
+                <option value="Kalki">Kalki Prabhu</option>
             </select>
         </div>
 
@@ -323,7 +447,8 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
         <div>
             <button class="button" onclick="saveChart()">Save</button>
             <button class="button" onclick="loadChart()">Show</button>
-            <button class="button button-danger" onclick="openClearModal()">Clear</button>
+            <!-- Clear removed, replaced with Logout -->
+            <button class="button button-danger" onclick="logout('You have logged out.')">Logout</button>
         </div>
 
     </div>
@@ -502,32 +627,6 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
             </table>
         </div>
 
-        <!-- CLEAR MODAL -->
-        <div id="clearModal" style="
-            position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-            display: none; justify-content: center; align-items: center; z-index: 9999;">
-            
-            <div style="
-                background: white; color: black; padding: 20px; border-radius: 10px;
-                width: 300px; max-width: 90%; text-align: left;">
-                
-                <h3>Select days to clear</h3>
-
-                <label><input type="checkbox" class="clear-day" value="mon"> Monday</label><br>
-                <label><input type="checkbox" class="clear-day" value="tue"> Tuesday</label><br>
-                <label><input type="checkbox" class="clear-day" value="wed"> Wednesday</label><br>
-                <label><input type="checkbox" class="clear-day" value="thu"> Thursday</label><br>
-                <label><input type="checkbox" class="clear-day" value="fri"> Friday</label><br>
-                <label><input type="checkbox" class="clear-day" value="sat"> Saturday</label><br>
-                <label><input type="checkbox" class="clear-day" value="sun"> Sunday</label><br><br>
-
-                <label><input type="checkbox" id="clearAllDays"> <strong>All Days</strong></label><br><br>
-
-                <button onclick="confirmClear()" style="padding:6px 12px;">Confirm</button>
-                <button onclick="closeClearModal()" style="padding:6px 12px;">Cancel</button>
-            </div>
-        </div>
-
         <!-- REALIZATIONS -->
         <div style="margin-top:8px; text-align:left; color:#fff; font-size:0.85rem;">
             <strong>Any realizations for this week? Or anything related to your practice of Krishna Consciousness:</strong>
@@ -550,6 +649,25 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
 <script>
+/*
+  NOTE: Firebase API keys are public identifiers, not secrets.
+  Access to your data is controlled by Firebase Database Security Rules.
+*/
+
+/* FIREBASE CONFIG */
+const firebaseConfig = {
+  apiKey: "AIzaSyDxJY7_VirTqoXMYbjjFzsHaAz-KSbQEj8",
+  authDomain: "bhakti-vriksha-2e295.firebaseapp.com",
+  projectId: "bhakti-vriksha-2e295",
+  storageBucket: "bhakti-vriksha-2e295.firebasestorage.app",
+  messagingSenderId: "159402779568",
+  appId: "1:159402779568:web:dc0c4a39a0c51d08dcac75",
+  measurementId: "G-5LKYY6YZBC"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 /* PASSWORDS */
 const userPasswords = {
     "Akhila": "Krishna123",
@@ -567,6 +685,48 @@ const userPasswords = {
     "Kalki": "Govinda108"
 };
 
+/* SESSION TIMER */
+let sessionTimeoutId = null;
+
+function startSessionTimer() {
+    if (sessionTimeoutId) clearTimeout(sessionTimeoutId);
+    sessionTimeoutId = setTimeout(() => {
+        logout("Session expired after 15 minutes.");
+    }, 15 * 60 * 1000);
+}
+
+/* LOGOUT */
+function logout(message) {
+    // Hide main container
+    document.querySelector(".container").style.display = "none";
+
+    // Show welcome page
+    document.getElementById("welcomePage").style.display = "flex";
+
+    // Hide user select page
+    document.getElementById("userSelectPage").style.display = "none";
+
+    // Hide login modals
+    closeAdminLoginModal();
+    closeUserLoginModal();
+
+    // Reset dropdown
+    const mainSelect = document.getElementById("userName");
+    mainSelect.disabled = false;
+    mainSelect.selectedIndex = 0;
+    mainSelect.value = "";
+
+    // Clear name, chart, status
+    clearInputs();
+    document.getElementById("fullName").value = "";
+    document.getElementById("status").textContent = "";
+
+    if (sessionTimeoutId) clearTimeout(sessionTimeoutId);
+    sessionTimeoutId = null;
+
+    if (message) alert(message);
+}
+
 /* AUTO-EXPAND TEXTAREAS */
 document.addEventListener("input", function (e) {
     if (e.target.classList.contains("cell-input") || e.target.id === "realizations") {
@@ -575,10 +735,41 @@ document.addEventListener("input", function (e) {
     }
 });
 
-/* ADMIN LOGIN */
+/* ADMIN LOGIN FLOW */
 function openAdminLogin() {
-    const pass = prompt("Enter Admin Passcode:");
+    // Load saved admin password if available
+    const savedAdminPass = localStorage.getItem("bv_adminPassword");
+    const adminPasswordInput = document.getElementById("adminPassword");
+    const adminSaveCheckbox = document.getElementById("adminSavePassword");
+
+    if (savedAdminPass) {
+        adminPasswordInput.value = savedAdminPass;
+        adminSaveCheckbox.checked = true;
+    } else {
+        adminPasswordInput.value = "";
+        adminSaveCheckbox.checked = false;
+    }
+
+    document.getElementById("adminLoginModal").style.display = "flex";
+}
+
+function closeAdminLoginModal() {
+    document.getElementById("adminLoginModal").style.display = "none";
+}
+
+function adminLogin() {
+    const pass = document.getElementById("adminPassword").value.trim();
+    const save = document.getElementById("adminSavePassword").checked;
+
     if (pass === "Gauranga") {
+        if (save) {
+            localStorage.setItem("bv_adminPassword", pass);
+        } else {
+            localStorage.removeItem("bv_adminPassword");
+        }
+
+        closeAdminLoginModal();
+
         document.getElementById("welcomePage").style.display = "none";
         document.querySelector(".container").style.display = "flex";
         alert("Welcome Admin!");
@@ -591,35 +782,19 @@ function openAdminLogin() {
         clearInputs();
         document.getElementById("fullName").value = "";
         document.getElementById("status").textContent = "";
-    } else if (pass !== null) {
+
+        startSessionTimer();
+    } else {
         alert("Incorrect passcode.");
     }
 }
 
 /* GO HOME */
 function goHome() {
-    // Hide main container
-    document.querySelector(".container").style.display = "none";
-
-    // Show welcome page
-    document.getElementById("welcomePage").style.display = "flex";
-
-    // Hide user select page
-    document.getElementById("userSelectPage").style.display = "none";
-
-    // Reset dropdown
-    const mainSelect = document.getElementById("userName");
-    mainSelect.disabled = false;
-    mainSelect.selectedIndex = 0;
-    mainSelect.value = "";
-
-    // Clear name, chart, status
-    clearInputs();
-    document.getElementById("fullName").value = "";
-    document.getElementById("status").textContent = "";
+    logout("");
 }
 
-/* USER LOGIN */
+/* USER LOGIN FLOW */
 function openUserSelect() {
     document.getElementById("userSelectPage").style.display = "flex";
 }
@@ -640,92 +815,67 @@ function enterUserMode() {
         return;
     }
 
-    const entered = prompt("Enter your password:");
+    // Prepare user password modal
+    const userModal = document.getElementById("userLoginModal");
+    const userPasswordInput = document.getElementById("userPassword");
+    const userSaveCheckbox = document.getElementById("userSavePassword");
+    const userModalTitle = document.getElementById("userModalTitle");
+
+    userModal.dataset.userName = selected;
+    userModalTitle.textContent = "User Login - " + selected;
+
+    const savedUserPass = localStorage.getItem("bv_userPassword_" + selected);
+    if (savedUserPass) {
+        userPasswordInput.value = savedUserPass;
+        userSaveCheckbox.checked = true;
+    } else {
+        userPasswordInput.value = "";
+        userSaveCheckbox.checked = false;
+    }
+
+    userModal.style.display = "flex";
+}
+
+function closeUserLoginModal() {
+    document.getElementById("userLoginModal").style.display = "none";
+}
+
+function userLogin() {
+    const userModal = document.getElementById("userLoginModal");
+    const selected = userModal.dataset.userName;
+    const entered = document.getElementById("userPassword").value.trim();
+    const save = document.getElementById("userSavePassword").checked;
+
+    if (!selected) {
+        alert("No user selected.");
+        return;
+    }
+
     if (entered !== userPasswords[selected]) {
         alert("Incorrect password.");
         return;
     }
 
+    if (save) {
+        localStorage.setItem("bv_userPassword_" + selected, entered);
+    } else {
+        localStorage.removeItem("bv_userPassword_" + selected);
+    }
+
+    // Successful user login
     document.querySelector(".container").style.display = "flex";
     document.getElementById("welcomePage").style.display = "none";
     document.getElementById("userSelectPage").style.display = "none";
+    closeUserLoginModal();
 
     const mainSelect = document.getElementById("userName");
-    // IMPORTANT: do NOT replace the innerHTML (so admin still sees full list later)
     mainSelect.value = selected;
     mainSelect.disabled = true;
 
     showWelcomeMessage(selected);
     loadChart();
+    startSessionTimer();
 }
-
-/* WEEK BUTTON HIGHLIGHT */
-function highlightButton(btnId) {
-    ["btnPrev", "btnCurrent", "btnNext"].forEach(id =>
-        document.getElementById(id).classList.remove("week-active")
-    );
-    document.getElementById(btnId).classList.add("week-active");
-}
-
-/* CLEAR MODAL */
-function openClearModal() {
-    document.getElementById("clearModal").style.display = "flex";
-}
-
-function closeClearModal() {
-    document.getElementById("clearModal").style.display = "none";
-}
-
-document.getElementById("clearAllDays").addEventListener("change", function () {
-    document.querySelectorAll(".clear-day").forEach(cb => cb.checked = this.checked);
-});
-
-function confirmClear() {
-    const allDays = document.getElementById("clearAllDays").checked;
-    const selected = [...document.querySelectorAll(".clear-day:checked")].map(cb => cb.value);
-
-    if (selected.length === 0) {
-        showStatus("Please select at least one day to clear.", true);
-        return;
-    }
-
-    if (allDays) {
-        document.querySelectorAll(".cell-input").forEach(i => {
-            i.value = "";
-            i.style.height = "40px";
-        });
-        const r = document.getElementById("realizations");
-        r.value = "";
-        r.style.height = "60px";
-        showStatus("All days cleared for this week.");
-        closeClearModal();
-        return;
-    }
-
-    selected.forEach(dayKey => {
-        document.querySelectorAll(`.cell-input[data-day='${dayKey}']`).forEach(i => {
-            i.value = "";
-            i.style.height = "40px";
-        });
-    });
-
-    showStatus("Selected days cleared for this week.");
-    closeClearModal();
-}
-
-/* FIREBASE */
-const firebaseConfig = {
-  apiKey: "AIzaSyDxJY7_VirTqoXMYbjjFzsHaAz-KSbQEj8",
-  authDomain: "bhakti-vriksha-2e295.firebaseapp.com",
-  projectId: "bhakti-vriksha-2e295",
-  storageBucket: "bhakti-vriksha-2e295.firebasestorage.app",
-  messagingSenderId: "159402779568",
-  appId: "1:159402779568:web:dc0c4a39a0c51d08dcac75",
-  measurementId: "G-5LKYY6YZBC"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
 
 /* WEEK LOGIC */
 function getMonday(date) {
@@ -834,13 +984,9 @@ function saveChart() {
     const weekKey = getWeekKey();
     const data = collectDataFromUI();
 
-    // Save main data
     db.ref("sadhana/" + userKey + "/" + weekKey).set(data)
         .then(() => {
             showStatus("Sadhana chart saved successfully.");
-
-            // ALSO store a weekly backup snapshot
-            // Path: weeklyBackups/<weekKey>/<userKey>
             return db.ref("weeklyBackups/" + weekKey + "/" + userKey).set(data);
         })
         .catch(() => showStatus("Error saving data.", true));
@@ -866,68 +1012,17 @@ function loadChart() {
         .catch(() => showStatus("Error loading data.", true));
 }
 
+/* WEEK BUTTON HIGHLIGHT */
+function highlightButton(btnId) {
+    ["btnPrev", "btnCurrent", "btnNext"].forEach(id =>
+        document.getElementById(id).classList.remove("week-active")
+    );
+    document.getElementById(btnId).classList.add("week-active");
+}
+
 /* INITIALIZE */
 highlightButton("btnCurrent");
 setCurrentWeek();
-
-/* ------------------------------------------------------------------
-   OPTIONAL: AUTOMATIC WEEKLY BACKUP + EMAIL (Firebase Cloud Functions)
-   ------------------------------------------------------------------
-   The following code does NOT run in this HTML file.
-   It is an example to deploy as a Firebase Cloud Function
-   to:
-     - create an automatic weekly backup of ALL sadhana data
-     - email a backup link/file to: kalki.todagala@gmail.com
---------------------------------------------------------------------*/
-
-/*
-   // In your Firebase Functions project (Node.js):
-
-   const functions = require("firebase-functions");
-   const admin = require("firebase-admin");
-   const nodemailer = require("nodemailer");
-
-   admin.initializeApp();
-
-   // Configure your email transport (e.g., Gmail, SendGrid, etc.)
-   const transporter = nodemailer.createTransport({
-       service: "gmail",
-       auth: {
-           user: "YOUR_EMAIL@gmail.com",
-           pass: "YOUR_APP_PASSWORD"
-       }
-   });
-
-   // Runs every Sunday at 23:59
-   exports.weeklySadhanaBackup = functions.pubsub.schedule("59 23 * * 0")
-       .timeZone("Australia/Perth")
-       .onRun(async (context) => {
-           const db = admin.database();
-
-           // 1. Get all sadhana data
-           const snap = await db.ref("sadhana").once("value");
-           const data = snap.val() || {};
-
-           // 2. Store snapshot under /automaticWeeklyBackups/YYYY-MM-DD
-           const now = new Date();
-           const weekKey = now.toISOString().slice(0,10); // YYYY-MM-DD
-           await db.ref("automaticWeeklyBackups/" + weekKey).set(data);
-
-           // 3. Prepare email
-           const mailOptions = {
-               from: "YOUR_EMAIL@gmail.com",
-               to: "kalki.todagala@gmail.com",
-               subject: "Your Weekly Bhakti Vriksha Sadhana Backup is Ready",
-               text: "Dear Kalki,\n\nHere is your weekly backup of the Bhakti Vriksha sadhana data.\n\nHare Krishna.",
-               html: "<p>Dear Kalki,</p><p>Here is your weekly backup of the Bhakti Vriksha sadhana data.</p><p>Hare Krishna.</p>"
-           };
-
-           await transporter.sendMail(mailOptions);
-
-           return null;
-       });
-*/
-
 </script>
 </body>
 </html>
