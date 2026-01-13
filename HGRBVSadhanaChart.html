@@ -37,7 +37,6 @@
     font-size: clamp(22px, 6vw, 43px);
 }
 
-/* Welcome page buttons */
 .welcome-btn {
     padding: 12px 20px;
     font-size: 1.1rem;
@@ -47,21 +46,34 @@
     cursor: pointer;
 }
 
-.welcome-btn-logout {
-    background: #ff6b6b;
-    color: #fff;
-    align-self: flex-end;
+.welcome-btn-admin { background: #a5d8ff; }
+.welcome-btn-user { background: #ffd166; }
+
+/* Week dropdown */
+.week-dropdown {
+  background-color: #e0f7ff;
+  border: 2px solid gold;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
 }
 
-.welcome-btn-admin {
-    background: #a5d8ff;
+/* Week line wrapper */
+#weekLine {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+    margin: 4px auto 0;
+    padding-bottom: 6px;
+    width: 100%;
+    max-width: 600px;
 }
 
-.welcome-btn-user {
-    background: #ffd166;
-}
-
-/* DESKTOP FIX — keep Gaura-Nitai fully visible */
+/* DESKTOP FIX */
 @media (min-width: 900px) {
     #welcomePage {
         background-size: contain !important;
@@ -74,127 +86,204 @@
 
 /* BODY */
 body {
-    margin: 0; font-family: "Segoe UI", sans-serif; color: #fff;
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    color: #fff;
     min-height: 100vh;
     background-image: url("https://iskconnewtown.com/wp-content/uploads/2024/02/nitai-gauranga-iskconnewtown-kolkata-6.jpeg");
-    background-size: cover; background-position: center;
-    display: flex; justify-content: center; align-items: flex-start;
-    padding: 20px 0; position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 0;
+    position: relative;
 }
 
 .overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 0;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 0;
 }
 
 /* MAIN CONTAINER */
 .container {
-    position: relative; z-index: 1;
-    width: 95%; max-width: 1100px;
+    position: relative;
+    z-index: 1;
+    width: 95%;
+    max-width: 1100px;
     background: rgba(0,0,0,0.45);
-    border-radius: 16px; backdrop-filter: blur(6px);
-    display: none; flex-direction: column; overflow: hidden;
+    border-radius: 16px;
+    backdrop-filter: blur(6px);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 /* HEADER */
 .header-bar {
-    background: lightblue; padding: 10px; border-radius: 16px 16px 0 0;
-    text-align: center; box-shadow: 0 0 20px 6px rgba(173,216,230,0.9);
+    background: lightblue;
+    padding: 10px;
+    border-radius: 16px 16px 0 0;
+    text-align: center;
+    box-shadow: 0 0 20px 6px rgba(173,216,230,0.9);
 }
 
 .header-text-title {
-    font-size: 1.6rem; font-weight: 700; color: #000; margin-bottom: 4px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 4px;
 }
 
 .header-text-subtitle {
-    font-size: 1.1rem; font-weight: 600; color: #000;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #000;
 }
 
 .sub-header {
-    font-size: 0.9rem; color: #000; margin-top: 4px;
+    font-size: 0.9rem;
+    color: #000;
+    margin-top: 4px;
 }
 
 /* CONTROLS */
 .top-controls {
-    padding: 10px; display: flex; flex-wrap: wrap;
-    justify-content: center; gap: 10px 16px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 16px;
     background: rgba(0,0,0,0.3);
 }
 
 .text-input, select {
-    padding: 6px 10px; border-radius: 6px; border: none; font-size: 0.9rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.9rem;
 }
 
-.counsellor-label { color: #FFDF00; font-weight: 600; }
-
 .button {
-    padding: 6px 12px; font-size: 0.9rem; border-radius: 8px;
-    border: none; cursor: pointer; background: #ffd166; color: #333; font-weight: 600;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #ffd166;
+    color: #333;
+    font-weight: 600;
 }
 
 .button-secondary { background: #a5d8ff; }
 .button-danger { background: #ff6b6b; color: #fff; }
 
 .week-active {
-    border: 2px solid #4ade80 !important; box-shadow: 0 0 6px #4ade80;
+    border: 2px solid #4ade80 !important;
+    box-shadow: 0 0 6px #4ade80;
 }
 
 /* WEEK INFO */
 .week-info {
-    font-size: 1.2rem; color: #a5d8ff; font-weight: 600;
-    margin: 8px 0; text-align: center;
+    font-size: 1.2rem;
+    color: #a5d8ff;
+    font-weight: 600;
+    margin: 8px 0;
+    text-align: left;
 }
 
 /* CONTENT */
 .content { padding: 10px; }
 
 .status {
-    font-size: 0.85rem; color: #d1fae5; min-height: 1em; margin-bottom: 4px;
+    font-size: 0.85rem;
+    color: #d1fae5;
+    min-height: 1em;
+    margin-bottom: 4px;
 }
 
 /* TABLE */
 .table-wrapper { width: 100%; overflow-x: auto; }
 
 table {
-    width: 100%; min-width: 900px;
-    border-collapse: collapse; background: #fff; color: #000;
-    border-radius: 10px; overflow: hidden; font-size: 0.9rem;
+    width: 100%;
+    min-width: 900px;
+    border-collapse: collapse;
+    background: #fff;
+    color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 0.9rem;
 }
 
-th, td { border: 1px solid #ccc; padding: 6px; vertical-align: top; }
-th { background: #f1f5f9; font-weight: 600; text-align: center; }
+th, td {
+    border: 1px solid #ccc;
+    padding: 6px;
+    vertical-align: top;
+}
+
+th {
+    background: #f1f5f9;
+    font-weight: 600;
+    text-align: center;
+}
 
 .row-label {
-    width: 24%; font-weight: 600; background: #f8fafc; text-align: left;
+    width: 24%;
+    font-weight: 600;
+    background: #f8fafc;
+    text-align: left;
 }
 
-.row-note { font-size: 0.75rem; color: #555; margin-top: 2px; }
+.row-note {
+    font-size: 0.75rem;
+    color: #555;
+    margin-top: 2px;
+}
 
 /* TEXTAREA CELLS */
 .cell-input {
-    width: 100%; border: none; font-size: 0.9rem;
-    padding: 4px; min-height: 40px; resize: none;
-    overflow: hidden; white-space: pre-wrap;
+    width: 100%;
+    border: none;
+    font-size: 0.9rem;
+    padding: 4px;
+    min-height: 40px;
+    resize: none;
+    overflow: hidden;
+    white-space: pre-wrap;
     font-family: inherit;
 }
 
 .cell-input:focus {
-    outline: 1px solid #60a5fa; background: #e0f2fe;
+    outline: 1px solid #60a5fa;
+    background: #e0f2fe;
 }
 
 /* REALIZATIONS */
 .realizations {
-    width: 100%; border: 1px solid #ccc; border-radius: 6px;
-    font-size: 0.9rem; padding: 8px; min-height: 60px;
-    resize: none; overflow: hidden; white-space: pre-wrap;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    padding: 8px;
+    min-height: 60px;
+    resize: none;
+    overflow: hidden;
+    white-space: pre-wrap;
 }
 
 /* FOOTER */
 .footer {
-    padding: 10px; font-size: 1rem; color: #fff;
-    text-shadow: 0 0 5px black; text-align: center;
+    padding: 10px;
+    font-size: 1rem;
+    color: #fff;
+    text-shadow: 0 0 5px black;
+    text-align: center;
 }
 
-/* LOGIN MODALS (devotional style) */
+/* MODALS */
 .modal-backdrop {
     position: fixed;
     inset: 0;
@@ -262,15 +351,8 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
     font-weight: 600;
 }
 
-.modal-btn-primary {
-    background: #ffd166;
-    color: #333;
-}
-
-.modal-btn-secondary {
-    background: #a5d8ff;
-    color: #333;
-}
+.modal-btn-primary { background: #ffd166; color: #333; }
+.modal-btn-secondary { background: #a5d8ff; color: #333; }
 
 /* MOBILE */
 @media (max-width: 800px) {
@@ -288,25 +370,15 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 }
 </style>
 </head>
+
 <body>
 
 <!-- WELCOME PAGE -->
 <div id="welcomePage">
-    <button id="welcomeLogoutBtn" class="welcome-btn welcome-btn-logout" onclick="logout('You have logged out.')">
-        Logout
-    </button>
+    <h1 id="welcomePlainTitle">Welcome to HG Rasikananda Prabhuji Bhakti Vriksha</h1>
 
-    <h1 id="welcomePlainTitle">
-        Welcome to HG Rasikananda Prabhuji Bhakti Vriksha
-    </h1>
-
-    <button onclick="openAdminLogin()" class="welcome-btn welcome-btn-admin">
-        Admin View
-    </button>
-
-    <button onclick="openUserSelect()" class="welcome-btn welcome-btn-user">
-        User View
-    </button>
+    <button onclick="openAdminLogin()" class="welcome-btn welcome-btn-admin">Admin View</button>
+    <button onclick="openUserSelect()" class="welcome-btn welcome-btn-user">User View</button>
 </div>
 
 <!-- ADMIN LOGIN MODAL -->
@@ -315,12 +387,11 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
         <div class="modal-title">✨ Hare Krishna ✨</div>
         <div class="modal-subtitle">Admin Login</div>
 
-        <label class="modal-label" for="adminPassword">Admin Passcode</label>
-        <input id="adminPassword" type="password" class="modal-input" placeholder="Enter admin passcode">
+        <label class="modal-label">Admin Passcode</label>
+        <input id="adminPassword" type="password" class="modal-input">
 
-        <label class="modal-label" style="display:flex; align-items:center; gap:6px; font-weight:500;">
-            <input type="checkbox" id="adminSavePassword">
-            Save password
+        <label class="modal-label" style="display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="adminSavePassword"> Save password
         </label>
 
         <div class="modal-footer">
@@ -330,18 +401,17 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
     </div>
 </div>
 
-<!-- USER PASSWORD MODAL -->
+<!-- USER LOGIN MODAL -->
 <div id="userLoginModal" class="modal-backdrop">
     <div class="modal-box">
         <div class="modal-title">✨ Hare Krishna ✨</div>
         <div class="modal-subtitle" id="userModalTitle">User Login</div>
 
-        <label class="modal-label" for="userPassword">Password</label>
-        <input id="userPassword" type="password" class="modal-input" placeholder="Enter your password">
+        <label class="modal-label">Password</label>
+        <input id="userPassword" type="password" class="modal-input">
 
-        <label class="modal-label" style="display:flex; align-items:center; gap:6px; font-weight:500;">
-            <input type="checkbox" id="userSavePassword">
-            Save password
+        <label class="modal-label" style="display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="userSavePassword"> Save password
         </label>
 
         <div class="modal-footer">
@@ -361,9 +431,7 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 ">
     <h2 style="color: #FFD700; margin-bottom: 20px;">Select Your Name</h2>
 
-    <select id="userSelectDropdown" style="
-        padding: 10px; font-size: 1rem; border-radius: 6px;
-    ">
+    <select id="userSelectDropdown" style="padding: 10px; font-size: 1rem; border-radius: 6px;">
         <option value="" disabled selected>-- Select your name --</option>
         <option value="Akhila">Akhila Mataji</option>
         <option value="Anita">Anita Mataji</option>
@@ -430,7 +498,7 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
         </div>
 
         <div>
-            <label class="counsellor-label">Shiksha Guru:&nbsp;</label>
+            <label style="color:#FFDF00; font-weight:600;">Shiksha Guru:&nbsp;</label>
             <input class="text-input" type="text"
                 value="HG Rasikananda Das"
                 disabled
@@ -441,19 +509,24 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
         <div>
             <button id="btnPrev" class="button button-secondary" onclick="changeWeek(-1)">Previous Week</button>
             <button id="btnCurrent" class="button button-secondary" onclick="setCurrentWeek()">Current Week</button>
-            <button id="btnNext" class="button button-secondary" onclick="changeWeek(1)">Next Week</button>
         </div>
 
         <div>
             <button class="button" onclick="saveChart()">Save</button>
             <button class="button" onclick="loadChart()">Show</button>
-            <!-- Clear removed, replaced with Logout -->
             <button class="button button-danger" onclick="logout('You have logged out.')">Logout</button>
         </div>
 
     </div>
 
-    <div id="weekInfo" class="week-info"></div>
+    <!-- WEEK RANGE + DROPDOWN -->
+    <div id="weekLine">
+        <div id="weekInfo" class="week-info"></div>
+
+        <select id="weekDropdown" class="week-dropdown">
+            <option value="">-- Select Previous Week --</option>
+        </select>
+    </div>
 
     <div class="content">
         <div id="status" class="status"></div>
@@ -622,7 +695,6 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
                         <td><textarea class="cell-input" data-row="principles" data-day="sat"></textarea></td>
                         <td><textarea class="cell-input" data-row="principles" data-day="sun"></textarea></td>
                     </tr>
-
                 </tbody>
             </table>
         </div>
@@ -644,16 +716,11 @@ th { background: #f1f5f9; font-weight: 600; text-align: center; }
 
 </div>
 
-<!-- Firebase SDKs -->
+<!-- FIREBASE + SCRIPT -->
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
 
 <script>
-/*
-  NOTE: Firebase API keys are public identifiers, not secrets.
-  Access to your data is controlled by Firebase Database Security Rules.
-*/
-
 /* FIREBASE CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyDxJY7_VirTqoXMYbjjFzsHaAz-KSbQEj8",
@@ -697,26 +764,18 @@ function startSessionTimer() {
 
 /* LOGOUT */
 function logout(message) {
-    // Hide main container
     document.querySelector(".container").style.display = "none";
-
-    // Show welcome page
     document.getElementById("welcomePage").style.display = "flex";
-
-    // Hide user select page
     document.getElementById("userSelectPage").style.display = "none";
 
-    // Hide login modals
     closeAdminLoginModal();
     closeUserLoginModal();
 
-    // Reset dropdown
     const mainSelect = document.getElementById("userName");
     mainSelect.disabled = false;
     mainSelect.selectedIndex = 0;
     mainSelect.value = "";
 
-    // Clear name, chart, status
     clearInputs();
     document.getElementById("fullName").value = "";
     document.getElementById("status").textContent = "";
@@ -737,7 +796,6 @@ document.addEventListener("input", function (e) {
 
 /* ADMIN LOGIN FLOW */
 function openAdminLogin() {
-    // Load saved admin password if available
     const savedAdminPass = localStorage.getItem("bv_adminPassword");
     const adminPasswordInput = document.getElementById("adminPassword");
     const adminSaveCheckbox = document.getElementById("adminSavePassword");
@@ -815,7 +873,6 @@ function enterUserMode() {
         return;
     }
 
-    // Prepare user password modal
     const userModal = document.getElementById("userLoginModal");
     const userPasswordInput = document.getElementById("userPassword");
     const userSaveCheckbox = document.getElementById("userSavePassword");
@@ -862,7 +919,6 @@ function userLogin() {
         localStorage.removeItem("bv_userPassword_" + selected);
     }
 
-    // Successful user login
     document.querySelector(".container").style.display = "flex";
     document.getElementById("welcomePage").style.display = "none";
     document.getElementById("userSelectPage").style.display = "none";
@@ -873,8 +929,11 @@ function userLogin() {
     mainSelect.disabled = true;
 
     showWelcomeMessage(selected);
+    setCurrentWeek();
     loadChart();
     startSessionTimer();
+
+    loadPreviousWeeksDropdown();
 }
 
 /* WEEK LOGIC */
@@ -889,31 +948,170 @@ function getMonday(date) {
 let currentWeekStart = getMonday(new Date());
 
 function formatDate(d) {
-    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return `${d.getFullYear()}-${months[d.getMonth()]}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
+/* PARSE BOTH FORMATS: 2026-Jan-05 AND 2026-01-05 */
+function parseAnyWeekKey(key) {
+    const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const hasNameMonth = monthNames.some(m => key.includes("-" + m + "-"));
+    if (hasNameMonth) {
+        const [year, mon, day] = key.split("-");
+        const months = {
+            Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5,
+            Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11
+        };
+        return new Date(year, months[mon], day);
+    }
+    // numeric format
+    return new Date(key);
 }
 
 function updateWeekInfo() {
     const start = new Date(currentWeekStart);
     const end = new Date(start);
     end.setDate(start.getDate() + 6);
-    document.getElementById("weekInfo").textContent = formatDate(start) + " to " + formatDate(end);
+    document.getElementById("weekInfo").textContent =
+        formatDate(start) + " to " + formatDate(end);
 }
 
 function changeWeek(direction) {
     currentWeekStart.setDate(currentWeekStart.getDate() + direction * 7);
     updateWeekInfo();
+
+    // Exit view mode
+    document.getElementById("weekDropdown").value = "";
+
     clearInputs();
     document.getElementById("status").textContent = "";
-    highlightButton(direction === -1 ? "btnPrev" : "btnNext");
+    highlightButton(direction === -1 ? "btnPrev" : "btnCurrent");
+
+    loadChart();
+    loadPreviousWeeksDropdown();
 }
 
+
 function setCurrentWeek() {
-    currentWeekStart = getMonday(new Date());
+    // Hard reset to today's Monday
+    const today = new Date();
+    currentWeekStart = getMonday(today);
+
+    // Update UI
     updateWeekInfo();
+
+    // Exit view mode
+    const dropdown = document.getElementById("weekDropdown");
+    dropdown.value = "";
+
+    // Clear old data
     clearInputs();
-    document.getElementById("status").textContent = "";
+
+    // Highlight button
     highlightButton("btnCurrent");
+
+    // Load correct week
+    loadChart();
+
+    // Refresh dropdown
+    loadPreviousWeeksDropdown();
 }
+
+
+
+
+/* WEEK DROPDOWN — DEDUPLICATED, MONDAY–SUNDAY, EXCLUDE CURRENT WEEK */
+function loadPreviousWeeksDropdown() {
+    const userKey = getUserKey();
+    if (!userKey) return;
+
+    const dropdown = document.getElementById("weekDropdown");
+    dropdown.innerHTML = `<option value="">-- Select Previous Week --</option>`;
+
+    db.ref("sadhana/" + userKey).once("value").then(snapshot => {
+        const weeks = snapshot.val();
+        if (!weeks) return;
+
+        const currentMonday = getMonday(new Date());
+        const previousMonday = new Date(currentMonday);
+        previousMonday.setDate(currentMonday.getDate() - 7);
+
+        const currentKey = formatDate(currentMonday);
+        const previousKey = formatDate(previousMonday);
+
+        const weekMap = {};
+
+        Object.keys(weeks).forEach(storedKey => {
+            const rawDate = parseAnyWeekKey(storedKey);
+            if (isNaN(rawDate)) return;
+
+            const monday = getMonday(rawDate);
+            const normalizedKey = formatDate(monday);
+
+            if (normalizedKey === currentKey || normalizedKey === previousKey) return;
+
+            if (!weekMap[normalizedKey]) {
+                weekMap[normalizedKey] = storedKey;
+            }
+        });
+
+        Object.keys(weekMap)
+            .sort()
+            .reverse()
+            .forEach(normalizedKey => {
+                const storedKey = weekMap[normalizedKey];
+                const start = parseAnyWeekKey(normalizedKey);
+                const end = new Date(start);
+                end.setDate(start.getDate() + 6);
+
+                const label = `${formatDate(start)} to ${formatDate(end)}`;
+
+                const option = document.createElement("option");
+                option.value = storedKey;
+                option.textContent = label;
+                dropdown.appendChild(option);
+            });
+    });
+}
+
+/* WEEK DROPDOWN — VIEW MODE ONLY, LOADS DATA CORRECTLY */
+document.getElementById("weekDropdown").addEventListener("change", function () {
+    const selectedWeek = this.value;
+    if (!selectedWeek) return;
+
+    const userKey = getUserKey();
+    if (!userKey) return;
+
+    const keyA = selectedWeek; // as stored
+    const keyB = selectedWeek.replace(
+        /-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-/,
+        match => {
+            const map = {
+                "-Jan-":"-01-", "-Feb-":"-02-", "-Mar-":"-03-", "-Apr-":"-04-",
+                "-May-":"-05-", "-Jun-":"-06-", "-Jul-":"-07-", "-Aug-":"-08-",
+                "-Sep-":"-09-", "-Oct-":"-10-", "-Nov-":"-11-", "-Dec-":"-12-"
+            };
+            return map[match] || match;
+        }
+    );
+
+    db.ref("sadhana/" + userKey + "/" + keyA).once("value").then(snapA => {
+        if (snapA.exists()) {
+            applyDataToUI(snapA.val());
+            showStatus("Loaded previous week (view mode).");
+        } else {
+            db.ref("sadhana/" + userKey + "/" + keyB).once("value").then(snapB => {
+                if (snapB.exists()) {
+                    applyDataToUI(snapB.val());
+                    showStatus("Loaded previous week (view mode).");
+                } else {
+                    clearInputs(false);
+                    showStatus("No data found.");
+                }
+            });
+        }
+    });
+});
 
 /* DATA HELPERS */
 function getWeekKey() { return formatDate(currentWeekStart); }
@@ -981,7 +1179,7 @@ function saveChart() {
     const userKey = getUserKey();
     if (!userKey) return showStatus("Please select your name before saving.", true);
 
-    const weekKey = getWeekKey();
+    const weekKey = formatDate(getMonday(currentWeekStart));
     const data = collectDataFromUI();
 
     db.ref("sadhana/" + userKey + "/" + weekKey).set(data)
@@ -996,25 +1194,68 @@ function loadChart() {
     const userKey = getUserKey();
     if (!userKey) return showStatus("Please select your name before loading.", true);
 
-    const weekKey = getWeekKey();
+    // If dropdown has a value, load THAT week (view mode)
+    const dropdownValue = document.getElementById("weekDropdown").value;
+    if (dropdownValue) {
+        loadSelectedWeek(dropdownValue);
+        return;
+    }
 
-    db.ref("sadhana/" + userKey + "/" + weekKey).once("value")
-        .then(snapshot => {
-            const data = snapshot.val();
-            if (data) {
-                applyDataToUI(data);
-                showStatus("Sadhana chart loaded.");
-            } else {
-                clearInputs();
-                showStatus("No data found for this week.");
-            }
-        })
-        .catch(() => showStatus("Error loading data.", true));
+    // Otherwise load CURRENT week
+    const weekKey = getWeekKey();
+    loadWeekByKey(userKey, weekKey);
+}
+
+/* Load a week selected from dropdown (view mode) */
+function loadSelectedWeek(storedKey) {
+    const userKey = getUserKey();
+    if (!userKey) return;
+
+    const monday = getMonday(parseAnyWeekKey(storedKey));
+    const canonicalKey = formatDate(monday); // always 2026-Jan-12 format
+
+    db.ref("sadhana/" + userKey + "/" + canonicalKey).once("value").then(snapshot => {
+        if (snapshot.exists()) {
+            applyDataToUI(snapshot.val());
+            showStatus("Loaded previous week (view mode).");
+        } else {
+            clearInputs(false);
+            showStatus("No data found.");
+        }
+    });
+}
+
+/* Load the actual current week */
+function loadWeekByKey(userKey, weekKey) {
+    const monday = getMonday(parseAnyWeekKey(weekKey));
+    const canonicalKey = formatDate(monday); // always 2026-Jan-12 format
+
+    db.ref("sadhana/" + userKey + "/" + canonicalKey).once("value").then(snapshot => {
+        if (snapshot.exists()) {
+            applyDataToUI(snapshot.val());
+            showStatus("Sadhana chart loaded.");
+        } else {
+            clearInputs();
+            showStatus("No data found for this week.");
+        }
+    });
+}
+
+/* Convert 2026-Jan-12 → 2026-01-12 */
+function convertMonthNameToNumber(key) {
+    return key.replace(
+        /-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-/,
+        match => ({
+            "-Jan-":"-01-","-Feb-":"-02-","-Mar-":"-03-","-Apr-":"-04-",
+            "-May-":"-05-","-Jun-":"-06-","-Jul-":"-07-","-Aug-":"-08-",
+            "-Sep-":"-09-","-Oct-":"-10-","-Nov-":"-11-","-Dec-":"-12-"
+        }[match] || match)
+    );
 }
 
 /* WEEK BUTTON HIGHLIGHT */
 function highlightButton(btnId) {
-    ["btnPrev", "btnCurrent", "btnNext"].forEach(id =>
+    ["btnPrev", "btnCurrent"].forEach(id =>
         document.getElementById(id).classList.remove("week-active")
     );
     document.getElementById(btnId).classList.add("week-active");
@@ -1023,6 +1264,30 @@ function highlightButton(btnId) {
 /* INITIALIZE */
 highlightButton("btnCurrent");
 setCurrentWeek();
+
+/* AUTO-SAVE EVERY 10 SECONDS */
+setInterval(() => {
+    const userKey = getUserKey();
+    if (!userKey) return;
+
+    const weekKey = getWeekKey();
+    const data = collectDataFromUI();
+
+    const hasContent = Object.values(data).some(value => {
+        if (typeof value === "string") return value.trim() !== "";
+        if (typeof value === "object") {
+            return Object.values(value).some(v => (v || "").trim() !== "");
+        }
+        return false;
+    });
+
+    if (!hasContent) return;
+
+    db.ref("sadhana/" + userKey + "/" + weekKey).set(data);
+    db.ref("weeklyBackups/" + weekKey + "/" + userKey).set(data);
+
+}, 10000);
 </script>
+
 </body>
 </html>
