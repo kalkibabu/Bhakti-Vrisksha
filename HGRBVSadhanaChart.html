@@ -714,7 +714,7 @@ th {
         Hare Rama Hare Rama Rama Rama Hare Hare
     </div>
 
-</div>
+</div> <!-- end container -->
 
 <!-- FIREBASE + SCRIPT -->
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
@@ -725,6 +725,7 @@ th {
 const firebaseConfig = {
   apiKey: "AIzaSyDxJY7_VirTqoXMYbjjFzsHaAz-KSbQEj8",
   authDomain: "bhakti-vriksha-2e295.firebaseapp.com",
+  databaseURL: "https://bhakti-vriksha-2e295-default-rtdb.firebaseio.com",
   projectId: "bhakti-vriksha-2e295",
   storageBucket: "bhakti-vriksha-2e295.firebasestorage.app",
   messagingSenderId: "159402779568",
@@ -919,22 +920,28 @@ function userLogin() {
         localStorage.removeItem("bv_userPassword_" + selected);
     }
 
-    document.querySelector(".container").style.display = "flex";
+    // SHOW MAIN PAGE FIRST
     document.getElementById("welcomePage").style.display = "none";
     document.getElementById("userSelectPage").style.display = "none";
+    document.querySelector(".container").style.display = "flex";
+
     closeUserLoginModal();
 
+    // NOW the element exists → set the user
     const mainSelect = document.getElementById("userName");
     mainSelect.value = selected;
     mainSelect.disabled = true;
 
     showWelcomeMessage(selected);
+
+    // LOAD CORRECT WEEK + DATA
     setCurrentWeek();
     loadChart();
-    startSessionTimer();
-
     loadPreviousWeeksDropdown();
+
+    startSessionTimer();
 }
+
 
 /* WEEK LOGIC */
 function getMonday(date) {
@@ -952,7 +959,7 @@ function formatDate(d) {
     return `${d.getFullYear()}-${months[d.getMonth()]}-${String(d.getDate()).padStart(2,"0")}`;
 }
 
-/* PARSE BOTH FORMATS: 2026-Jan-05 AND 2026-01-05 */
+/* PARSE BOTH FORMATS */
 function parseAnyWeekKey(key) {
     const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     const hasNameMonth = monthNames.some(m => key.includes("-" + m + "-"));
@@ -964,7 +971,6 @@ function parseAnyWeekKey(key) {
         };
         return new Date(year, months[mon], day);
     }
-    // numeric format
     return new Date(key);
 }
 
@@ -980,7 +986,6 @@ function changeWeek(direction) {
     currentWeekStart.setDate(currentWeekStart.getDate() + direction * 7);
     updateWeekInfo();
 
-    // Exit view mode
     document.getElementById("weekDropdown").value = "";
 
     clearInputs();
@@ -991,132 +996,34 @@ function changeWeek(direction) {
     loadPreviousWeeksDropdown();
 }
 
-
 function setCurrentWeek() {
-    // Hard reset to today's Monday
     const today = new Date();
     currentWeekStart = getMonday(today);
 
-    // Update UI
     updateWeekInfo();
 
-    // Exit view mode
-    const dropdown = document.getElementById("weekDropdown");
-    dropdown.value = "";
+    document.getElementById("weekDropdown").value = "";
 
-    // Clear old data
     clearInputs();
-
-    // Highlight button
     highlightButton("btnCurrent");
 
-    // Load correct week
     loadChart();
-
-    // Refresh dropdown
     loadPreviousWeeksDropdown();
 }
 
-
-
-
-/* WEEK DROPDOWN — DEDUPLICATED, MONDAY–SUNDAY, EXCLUDE CURRENT WEEK */
-function loadPreviousWeeksDropdown() {
-    const userKey = getUserKey();
-    if (!userKey) return;
-
-    const dropdown = document.getElementById("weekDropdown");
-    dropdown.innerHTML = `<option value="">-- Select Previous Week --</option>`;
-
-    db.ref("sadhana/" + userKey).once("value").then(snapshot => {
-        const weeks = snapshot.val();
-        if (!weeks) return;
-
-        const currentMonday = getMonday(new Date());
-        const previousMonday = new Date(currentMonday);
-        previousMonday.setDate(currentMonday.getDate() - 7);
-
-        const currentKey = formatDate(currentMonday);
-        const previousKey = formatDate(previousMonday);
-
-        const weekMap = {};
-
-        Object.keys(weeks).forEach(storedKey => {
-            const rawDate = parseAnyWeekKey(storedKey);
-            if (isNaN(rawDate)) return;
-
-            const monday = getMonday(rawDate);
-            const normalizedKey = formatDate(monday);
-
-            if (normalizedKey === currentKey || normalizedKey === previousKey) return;
-
-            if (!weekMap[normalizedKey]) {
-                weekMap[normalizedKey] = storedKey;
-            }
-        });
-
-        Object.keys(weekMap)
-            .sort()
-            .reverse()
-            .forEach(normalizedKey => {
-                const storedKey = weekMap[normalizedKey];
-                const start = parseAnyWeekKey(normalizedKey);
-                const end = new Date(start);
-                end.setDate(start.getDate() + 6);
-
-                const label = `${formatDate(start)} to ${formatDate(end)}`;
-
-                const option = document.createElement("option");
-                option.value = storedKey;
-                option.textContent = label;
-                dropdown.appendChild(option);
-            });
-    });
+/* HELPERS */
+function getWeekKey() {
+    const monday = getMonday(currentWeekStart);
+    return formatDate(monday);
 }
 
-/* WEEK DROPDOWN — VIEW MODE ONLY, LOADS DATA CORRECTLY */
-document.getElementById("weekDropdown").addEventListener("change", function () {
-    const selectedWeek = this.value;
-    if (!selectedWeek) return;
+function getUserKey() {
+    return document.getElementById("userName").value || null;
+}
 
-    const userKey = getUserKey();
-    if (!userKey) return;
-
-    const keyA = selectedWeek; // as stored
-    const keyB = selectedWeek.replace(
-        /-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-/,
-        match => {
-            const map = {
-                "-Jan-":"-01-", "-Feb-":"-02-", "-Mar-":"-03-", "-Apr-":"-04-",
-                "-May-":"-05-", "-Jun-":"-06-", "-Jul-":"-07-", "-Aug-":"-08-",
-                "-Sep-":"-09-", "-Oct-":"-10-", "-Nov-":"-11-", "-Dec-":"-12-"
-            };
-            return map[match] || match;
-        }
-    );
-
-    db.ref("sadhana/" + userKey + "/" + keyA).once("value").then(snapA => {
-        if (snapA.exists()) {
-            applyDataToUI(snapA.val());
-            showStatus("Loaded previous week (view mode).");
-        } else {
-            db.ref("sadhana/" + userKey + "/" + keyB).once("value").then(snapB => {
-                if (snapB.exists()) {
-                    applyDataToUI(snapB.val());
-                    showStatus("Loaded previous week (view mode).");
-                } else {
-                    clearInputs(false);
-                    showStatus("No data found.");
-                }
-            });
-        }
-    });
-});
-
-/* DATA HELPERS */
-function getWeekKey() { return formatDate(currentWeekStart); }
-function getUserKey() { return document.getElementById("userName").value || null; }
-function getFullName() { return document.getElementById("fullName").value.trim(); }
+function getFullName() {
+    return document.getElementById("fullName").value.trim();
+}
 
 function showStatus(msg, isError=false) {
     const el = document.getElementById("status");
@@ -1174,12 +1081,63 @@ function clearInputs(clearName=true) {
     if (clearName) document.getElementById("fullName").value = "";
 }
 
-/* SAVE / LOAD + WEEKLY BACKUP */
+/* WEEK DROPDOWN — CANONICAL KEYS ONLY */
+function loadPreviousWeeksDropdown() {
+    const userKey = getUserKey();
+    if (!userKey) return;
+
+    const dropdown = document.getElementById("weekDropdown");
+    dropdown.innerHTML = `<option value="">-- Select Previous Week --</option>`;
+
+    db.ref("sadhana/" + userKey).once("value").then(snapshot => {
+        const weeks = snapshot.val();
+        if (!weeks) return;
+
+        const currentMonday = getMonday(new Date());
+        const previousMonday = new Date(currentMonday);
+        previousMonday.setDate(currentMonday.getDate() - 7);
+
+        const currentKey = formatDate(currentMonday);
+        const previousKey = formatDate(previousMonday);
+
+        const weekMap = {};
+
+        Object.keys(weeks).forEach(storedKey => {
+            const rawDate = parseAnyWeekKey(storedKey);
+            if (isNaN(rawDate)) return;
+
+            const monday = getMonday(rawDate);
+            const normalizedKey = formatDate(monday);
+
+            if (normalizedKey === currentKey || normalizedKey === previousKey) return;
+
+            weekMap[normalizedKey] = true;
+        });
+
+        Object.keys(weekMap)
+            .sort()
+            .reverse()
+            .forEach(normalizedKey => {
+                const start = parseAnyWeekKey(normalizedKey);
+                const end = new Date(start);
+                end.setDate(start.getDate() + 6);
+
+                const label = `${formatDate(start)} to ${formatDate(end)}`;
+
+                const option = document.createElement("option");
+                option.value = normalizedKey;
+                option.textContent = label;
+                dropdown.appendChild(option);
+            });
+    });
+}
+
+/* SAVE / LOAD */
 function saveChart() {
     const userKey = getUserKey();
     if (!userKey) return showStatus("Please select your name before saving.", true);
 
-    const weekKey = formatDate(getMonday(currentWeekStart));
+    const weekKey = getWeekKey();
     const data = collectDataFromUI();
 
     db.ref("sadhana/" + userKey + "/" + weekKey).set(data)
@@ -1194,66 +1152,53 @@ function loadChart() {
     const userKey = getUserKey();
     if (!userKey) return showStatus("Please select your name before loading.", true);
 
-    // If dropdown has a value, load THAT week (view mode)
     const dropdownValue = document.getElementById("weekDropdown").value;
     if (dropdownValue) {
         loadSelectedWeek(dropdownValue);
         return;
     }
 
-    // Otherwise load CURRENT week
     const weekKey = getWeekKey();
-    loadWeekByKey(userKey, weekKey);
+    loadWeekByKey(userKey, weekKey, false);
 }
 
-/* Load a week selected from dropdown (view mode) */
-function loadSelectedWeek(storedKey) {
+function loadSelectedWeek(canonicalKey) {
     const userKey = getUserKey();
     if (!userKey) return;
 
-    const monday = getMonday(parseAnyWeekKey(storedKey));
-    const canonicalKey = formatDate(monday); // always 2026-Jan-12 format
+    const monday = getMonday(parseAnyWeekKey(canonicalKey));
+    currentWeekStart = monday;
+    updateWeekInfo();
 
-    db.ref("sadhana/" + userKey + "/" + canonicalKey).once("value").then(snapshot => {
-        if (snapshot.exists()) {
-            applyDataToUI(snapshot.val());
-            showStatus("Loaded previous week (view mode).");
-        } else {
-            clearInputs(false);
-            showStatus("No data found.");
-        }
-    });
+    loadWeekByKey(userKey, canonicalKey, true);
 }
 
-/* Load the actual current week */
-function loadWeekByKey(userKey, weekKey) {
+function loadWeekByKey(userKey, weekKey, isViewMode=false) {
     const monday = getMonday(parseAnyWeekKey(weekKey));
-    const canonicalKey = formatDate(monday); // always 2026-Jan-12 format
+    const canonicalKey = formatDate(monday);
 
     db.ref("sadhana/" + userKey + "/" + canonicalKey).once("value").then(snapshot => {
         if (snapshot.exists()) {
             applyDataToUI(snapshot.val());
-            showStatus("Sadhana chart loaded.");
+            showStatus(isViewMode ? "Loaded previous week (view mode)." : "Sadhana chart loaded.");
         } else {
-            clearInputs();
+            clearInputs(isViewMode ? false : true);
             showStatus("No data found for this week.");
         }
     });
 }
 
-/* Convert 2026-Jan-12 → 2026-01-12 */
-function convertMonthNameToNumber(key) {
-    return key.replace(
-        /-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-/,
-        match => ({
-            "-Jan-":"-01-","-Feb-":"-02-","-Mar-":"-03-","-Apr-":"-04-",
-            "-May-":"-05-","-Jun-":"-06-","-Jul-":"-07-","-Aug-":"-08-",
-            "-Sep-":"-09-","-Oct-":"-10-","-Nov-":"-11-","-Dec-":"-12-"
-        }[match] || match)
-    );
-}
+/* DROPDOWN CHANGE */
+document.getElementById("weekDropdown").addEventListener("change", function () {
+    const val = this.value;
+    if (!val) {
+        setCurrentWeek();
+        return;
+    }
+    loadSelectedWeek(val);
+});
 
-/* WEEK BUTTON HIGHLIGHT */
+/* BUTTON HIGHLIGHT */
 function highlightButton(btnId) {
     ["btnPrev", "btnCurrent"].forEach(id =>
         document.getElementById(id).classList.remove("week-active")
@@ -1265,10 +1210,13 @@ function highlightButton(btnId) {
 highlightButton("btnCurrent");
 setCurrentWeek();
 
-/* AUTO-SAVE EVERY 10 SECONDS */
+/* AUTO-SAVE (NOT IN VIEW MODE) */
 setInterval(() => {
     const userKey = getUserKey();
     if (!userKey) return;
+
+    const dropdownValue = document.getElementById("weekDropdown").value;
+    if (dropdownValue) return;
 
     const weekKey = getWeekKey();
     const data = collectDataFromUI();
