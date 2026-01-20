@@ -372,7 +372,6 @@ th {
 </head>
 
 <body>
-
 <!-- WELCOME PAGE -->
 <div id="welcomePage">
     <h1 id="welcomePlainTitle">Welcome to HG Rasikananda Prabhuji Bhakti Vriksha</h1>
@@ -512,7 +511,7 @@ th {
         </div>
 
         <div>
-            <button class="button" onclick="saveChart()">Save</button>
+            <button id="btnSave" class="button" onclick="saveChart()">Save</button>
             <button class="button" onclick="loadChart()">Show</button>
             <button class="button button-danger" onclick="logout('You have logged out.')">Logout</button>
         </div>
@@ -577,7 +576,7 @@ th {
                         <td><textarea class="cell-input" data-row="rounds" data-day="sun"></textarea></td>
                     </tr>
 
-                    <!-- 3. Chanting quality -->
+                    <!-- 3. Chant quality -->
                     <tr>
                         <td class="row-label">
                             How was the quality of my chanting?
@@ -606,11 +605,10 @@ th {
                         <td><textarea class="cell-input" data-row="lecture" data-day="sat"></textarea></td>
                         <td><textarea class="cell-input" data-row="lecture" data-day="sun"></textarea></td>
                     </tr>
-
                     <!-- 5. Reading -->
                     <tr>
                         <td class="row-label">
-                            How long did I read Srila Prabhupada's books?
+                            How long did I read Srila Prabhupada’s books?
                         </td>
                         <td><textarea class="cell-input" data-row="reading" data-day="mon"></textarea></td>
                         <td><textarea class="cell-input" data-row="reading" data-day="tue"></textarea></td>
@@ -666,7 +664,7 @@ th {
                         <td><textarea class="cell-input" data-row="exercise" data-day="sun"></textarea></td>
                     </tr>
 
-                    <!-- 9. Sleep time -->
+                    <!-- 9. Sleep -->
                     <tr>
                         <td class="row-label">
                             What time did I sleep?
@@ -681,11 +679,10 @@ th {
                         <td><textarea class="cell-input" data-row="sleep" data-day="sun"></textarea></td>
                     </tr>
 
-                    <!-- 10. Regulative principles -->
+                    <!-- 10. Principles -->
                     <tr>
                         <td class="row-label">
                             Did I follow 4 regulative principles?
-                            <div class="row-note">Following regulative principles helps maintain purity.</div>
                         </td>
                         <td><textarea class="cell-input" data-row="principles" data-day="mon"></textarea></td>
                         <td><textarea class="cell-input" data-row="principles" data-day="tue"></textarea></td>
@@ -695,39 +692,39 @@ th {
                         <td><textarea class="cell-input" data-row="principles" data-day="sat"></textarea></td>
                         <td><textarea class="cell-input" data-row="principles" data-day="sun"></textarea></td>
                     </tr>
+
+                    <!-- Realizations -->
+                    <tr>
+                        <td class="row-label">
+                            Realizations / Notes
+                        </td>
+                        <td colspan="7">
+                            <textarea id="realizations" class="realizations"></textarea>
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
-
-        <!-- REALIZATIONS -->
-        <div style="margin-top:8px; text-align:left; color:#fff; font-size:0.85rem;">
-            <strong>Any realizations for this week? Or anything related to your practice of Krishna Consciousness:</strong>
-        </div>
-
-        <textarea id="realizations" class="realizations" placeholder="Write your realizations here..."></textarea>
-
     </div>
 
-    <!-- FOOTER -->
     <div class="footer">
-        Hare Krsna Hare Krsna Krsna Krsna Hare Hare<br>
-        Hare Rama Hare Rama Rama Rama Hare Hare
+        Hare Krishna! All glories to Srila Prabhupada.
     </div>
+</div>
 
-</div> <!-- end container -->
-
-<!-- FIREBASE + SCRIPT -->
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 <script>
-/* FIREBASE CONFIG */
+/* ===== FIREBASE INIT ===== */
 const firebaseConfig = {
   apiKey: "AIzaSyDxJY7_VirTqoXMYbjjFzsHaAz-KSbQEj8",
   authDomain: "bhakti-vriksha-2e295.firebaseapp.com",
   databaseURL: "https://bhakti-vriksha-2e295-default-rtdb.firebaseio.com",
   projectId: "bhakti-vriksha-2e295",
-  storageBucket: "bhakti-vriksha-2e295.firebasestorage.app",
+  storageBucket: "bhakti-vriksha-2e295.appspot.com",
   messagingSenderId: "159402779568",
   appId: "1:159402779568:web:dc0c4a39a0c51d08dcac75",
   measurementId: "G-5LKYY6YZBC"
@@ -736,79 +733,37 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-/* PASSWORDS */
+/* ===== USER PASSWORDS MAP ===== */
 const userPasswords = {
     "Akhila": "Krishna123",
-    "Anita": "Govinda108",
-    "Heena": "Krishna123",
-    "Ranjana": "Krishna123",
-    "Janaki": "Krishna123",
-    "Bhavesh": "Arjuna456",
-    "Madhuri": "Govinda108",
-    "Mayur": "Arjuna456",
-    "Misha": "Arjuna456",
-    "Mithila": "Govinda108",
-    "Rajarshi": "Arjuna456",
+    "Anita": "AnitaPass",
+    "Heena": "HeenaPass",
+    "Ranjana": "RanjanaPass",
+    "Janaki": "JanakiPass",
+    "Bhavesh": "BhaveshPass",
+    "Mayur": "MayurPass",
+    "Madhuri": "MadhuriPass",
+    "Misha": "MishaPass",
+    "Rajarshi": "RajarshiPass",
     "Subuddhi": "Arjuna456",
     "Kalki": "Govinda108"
 };
 
-/* SESSION TIMER */
-let sessionTimeoutId = null;
+/* ===== SESSION / MODE STATE ===== */
+let activeUser = null;      // logged-in user (non-admin)
+let isAdmin = false;        // admin mode flag
+let sessionTimer = null;
 
-function startSessionTimer() {
-    if (sessionTimeoutId) clearTimeout(sessionTimeoutId);
-    sessionTimeoutId = setTimeout(() => {
-        logout("Session expired after 15 minutes.");
-    }, 15 * 60 * 1000);
-}
-
-/* LOGOUT */
-function logout(message) {
-    document.querySelector(".container").style.display = "none";
-    document.getElementById("welcomePage").style.display = "flex";
-    document.getElementById("userSelectPage").style.display = "none";
-
-    closeAdminLoginModal();
-    closeUserLoginModal();
-
-    const mainSelect = document.getElementById("userName");
-    mainSelect.disabled = false;
-    mainSelect.selectedIndex = 0;
-    mainSelect.value = "";
-
-    clearInputs();
-    document.getElementById("fullName").value = "";
-    document.getElementById("status").textContent = "";
-
-    if (sessionTimeoutId) clearTimeout(sessionTimeoutId);
-    sessionTimeoutId = null;
-
-    if (message) alert(message);
-}
-
-/* AUTO-EXPAND TEXTAREAS */
-document.addEventListener("input", function (e) {
-    if (e.target.classList.contains("cell-input") || e.target.id === "realizations") {
-        e.target.style.height = "auto";
-        e.target.style.height = (e.target.scrollHeight) + "px";
-    }
-});
-
-/* ADMIN LOGIN FLOW */
+/* ===== ADMIN FLOW ===== */
 function openAdminLogin() {
-    const savedAdminPass = localStorage.getItem("bv_adminPassword");
-    const adminPasswordInput = document.getElementById("adminPassword");
-    const adminSaveCheckbox = document.getElementById("adminSavePassword");
-
-    if (savedAdminPass) {
-        adminPasswordInput.value = savedAdminPass;
-        adminSaveCheckbox.checked = true;
+    const saved = localStorage.getItem("bv_adminPassword");
+    if (saved) {
+        document.getElementById("adminPassword").value = saved;
+        document.getElementById("adminSavePassword").checked = true;
     } else {
-        adminPasswordInput.value = "";
-        adminSaveCheckbox.checked = false;
+        document.getElementById("adminPassword").value = "";
+        document.getElementById("adminSavePassword").checked = false;
     }
-
     document.getElementById("adminLoginModal").style.display = "flex";
 }
 
@@ -827,6 +782,9 @@ function adminLogin() {
             localStorage.removeItem("bv_adminPassword");
         }
 
+        isAdmin = true;
+        activeUser = null; // admin is not a user
+
         closeAdminLoginModal();
 
         document.getElementById("welcomePage").style.display = "none";
@@ -841,6 +799,9 @@ function adminLogin() {
         clearInputs();
         document.getElementById("fullName").value = "";
         document.getElementById("status").textContent = "";
+
+        // Admin is read-only: disable Save button
+        document.getElementById("btnSave").disabled = true;
 
         startSessionTimer();
     } else {
@@ -920,21 +881,25 @@ function userLogin() {
         localStorage.removeItem("bv_userPassword_" + selected);
     }
 
-    // SHOW MAIN PAGE FIRST
+    // USER MODE
+    isAdmin = false;
+    activeUser = selected;
+
     document.getElementById("welcomePage").style.display = "none";
     document.getElementById("userSelectPage").style.display = "none";
     document.querySelector(".container").style.display = "flex";
 
     closeUserLoginModal();
 
-    // NOW the element exists → set the user
     const mainSelect = document.getElementById("userName");
     mainSelect.value = selected;
-    mainSelect.disabled = true;
+    mainSelect.disabled = true; // user cannot change identity via dropdown
+
+    // Enable Save for user
+    document.getElementById("btnSave").disabled = false;
 
     showWelcomeMessage(selected);
 
-    // LOAD CORRECT WEEK + DATA
     setCurrentWeek();
     loadChart();
     loadPreviousWeeksDropdown();
@@ -942,7 +907,40 @@ function userLogin() {
     startSessionTimer();
 }
 
+/* LOGOUT */
+function logout(message) {
+    activeUser = null;
+    isAdmin = false;
 
+    if (sessionTimer) {
+        clearTimeout(sessionTimer);
+        sessionTimer = null;
+    }
+
+    document.querySelector(".container").style.display = "none";
+    document.getElementById("welcomePage").style.display = "flex";
+    document.getElementById("userSelectPage").style.display = "none";
+
+    const mainSelect = document.getElementById("userName");
+    mainSelect.value = "";
+    mainSelect.disabled = false;
+
+    clearInputs();
+    document.getElementById("fullName").value = "";
+    document.getElementById("status").textContent = "";
+
+    document.getElementById("btnSave").disabled = false;
+
+    if (message) alert(message);
+}
+
+/* SESSION TIMER */
+function startSessionTimer() {
+    if (sessionTimer) clearTimeout(sessionTimer);
+    sessionTimer = setTimeout(() => {
+        logout("Session timed out. You have been logged out.");
+    }, 30 * 60 * 1000);
+}
 /* WEEK LOGIC */
 function getMonday(date) {
     const d = new Date(date);
@@ -1017,8 +1015,13 @@ function getWeekKey() {
     return formatDate(monday);
 }
 
+/* CRITICAL: USER KEY IS FROM SESSION, NOT DROPDOWN (except admin view) */
 function getUserKey() {
-    return document.getElementById("userName").value || null;
+    if (isAdmin) {
+        const v = document.getElementById("userName").value;
+        return v || null;
+    }
+    return activeUser;
 }
 
 function getFullName() {
@@ -1131,9 +1134,13 @@ function loadPreviousWeeksDropdown() {
             });
     });
 }
-
 /* SAVE / LOAD */
 function saveChart() {
+    if (isAdmin) {
+        showStatus("Admin mode is read-only. Saving is disabled.", true);
+        return;
+    }
+
     const userKey = getUserKey();
     if (!userKey) return showStatus("Please select your name before saving.", true);
 
@@ -1210,8 +1217,10 @@ function highlightButton(btnId) {
 highlightButton("btnCurrent");
 setCurrentWeek();
 
-/* AUTO-SAVE (NOT IN VIEW MODE) */
+/* AUTO-SAVE (NOT IN VIEW MODE, NOT IN ADMIN MODE) */
 setInterval(() => {
+    if (isAdmin) return; // admin must never auto-save
+
     const userKey = getUserKey();
     if (!userKey) return;
 
@@ -1239,3 +1248,4 @@ setInterval(() => {
 
 </body>
 </html>
+
