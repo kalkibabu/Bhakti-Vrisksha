@@ -605,6 +605,7 @@ th {
                         <td><textarea class="cell-input" data-row="lecture" data-day="sat"></textarea></td>
                         <td><textarea class="cell-input" data-row="lecture" data-day="sun"></textarea></td>
                     </tr>
+
                     <!-- 5. Reading -->
                     <tr>
                         <td class="row-label">
@@ -712,7 +713,6 @@ th {
         Hare Krishna! All glories to Srila Prabhupada.
     </div>
 </div>
-
 <!-- FIREBASE SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
@@ -750,20 +750,15 @@ const userPasswords = {
 };
 
 /* ===== SESSION / MODE STATE ===== */
-let activeUser = null;      // logged-in user (non-admin)
-let isAdmin = false;        // admin mode flag
+let activeUser = null;
+let isAdmin = false;
 let sessionTimer = null;
 
 /* ===== ADMIN FLOW ===== */
 function openAdminLogin() {
     const saved = localStorage.getItem("bv_adminPassword");
-    if (saved) {
-        document.getElementById("adminPassword").value = saved;
-        document.getElementById("adminSavePassword").checked = true;
-    } else {
-        document.getElementById("adminPassword").value = "";
-        document.getElementById("adminSavePassword").checked = false;
-    }
+    document.getElementById("adminPassword").value = saved || "";
+    document.getElementById("adminSavePassword").checked = !!saved;
     document.getElementById("adminLoginModal").style.display = "flex";
 }
 
@@ -775,38 +770,34 @@ function adminLogin() {
     const pass = document.getElementById("adminPassword").value.trim();
     const save = document.getElementById("adminSavePassword").checked;
 
-    if (pass === "Gauranga") {
-        if (save) {
-            localStorage.setItem("bv_adminPassword", pass);
-        } else {
-            localStorage.removeItem("bv_adminPassword");
-        }
-
-        isAdmin = true;
-        activeUser = null; // admin is not a user
-
-        closeAdminLoginModal();
-
-        document.getElementById("welcomePage").style.display = "none";
-        document.querySelector(".container").style.display = "flex";
-        alert("Welcome Admin!");
-
-        const mainSelect = document.getElementById("userName");
-        mainSelect.disabled = false;
-        mainSelect.selectedIndex = 0;
-        mainSelect.value = "";
-
-        clearInputs();
-        document.getElementById("fullName").value = "";
-        document.getElementById("status").textContent = "";
-
-        // Admin is read-only: disable Save button
-        document.getElementById("btnSave").disabled = true;
-
-        startSessionTimer();
-    } else {
+    if (pass !== "Gauranga") {
         alert("Incorrect passcode.");
+        return;
     }
+
+    if (save) localStorage.setItem("bv_adminPassword", pass);
+    else localStorage.removeItem("bv_adminPassword");
+
+    isAdmin = true;
+    activeUser = null;
+
+    closeAdminLoginModal();
+    document.getElementById("welcomePage").style.display = "none";
+    document.querySelector(".container").style.display = "flex";
+
+    alert("Welcome Admin!");
+
+    const mainSelect = document.getElementById("userName");
+    mainSelect.disabled = false;
+    mainSelect.value = "";
+
+    clearInputs();
+    document.getElementById("fullName").value = "";
+    document.getElementById("status").textContent = "";
+
+    document.getElementById("btnSave").disabled = true;
+
+    startSessionTimer();
 }
 
 /* GO HOME */
@@ -820,12 +811,9 @@ function openUserSelect() {
 }
 
 function showWelcomeMessage(name) {
-    const matajis = ["Akhila", "Heena", "Ranjana", "Janaki", "Misha", "Mithila", "Anita", "Madhuri"];
-    if (matajis.includes(name)) {
-        alert("Welcome " + name + " Mataji");
-    } else {
-        alert("Welcome " + name + " Prabhu");
-    }
+    const matajis = ["Akhila","Heena","Ranjana","Janaki","Misha","Mithila","Anita","Madhuri"];
+    if (matajis.includes(name)) alert("Welcome " + name + " Mataji");
+    else alert("Welcome " + name + " Prabhu");
 }
 
 function enterUserMode() {
@@ -835,24 +823,15 @@ function enterUserMode() {
         return;
     }
 
-    const userModal = document.getElementById("userLoginModal");
-    const userPasswordInput = document.getElementById("userPassword");
-    const userSaveCheckbox = document.getElementById("userSavePassword");
-    const userModalTitle = document.getElementById("userModalTitle");
+    const modal = document.getElementById("userLoginModal");
+    modal.dataset.userName = selected;
+    document.getElementById("userModalTitle").textContent = "User Login - " + selected;
 
-    userModal.dataset.userName = selected;
-    userModalTitle.textContent = "User Login - " + selected;
+    const savedPass = localStorage.getItem("bv_userPassword_" + selected);
+    document.getElementById("userPassword").value = savedPass || "";
+    document.getElementById("userSavePassword").checked = !!savedPass;
 
-    const savedUserPass = localStorage.getItem("bv_userPassword_" + selected);
-    if (savedUserPass) {
-        userPasswordInput.value = savedUserPass;
-        userSaveCheckbox.checked = true;
-    } else {
-        userPasswordInput.value = "";
-        userSaveCheckbox.checked = false;
-    }
-
-    userModal.style.display = "flex";
+    modal.style.display = "flex";
 }
 
 function closeUserLoginModal() {
@@ -860,8 +839,8 @@ function closeUserLoginModal() {
 }
 
 function userLogin() {
-    const userModal = document.getElementById("userLoginModal");
-    const selected = userModal.dataset.userName;
+    const modal = document.getElementById("userLoginModal");
+    const selected = modal.dataset.userName;
     const entered = document.getElementById("userPassword").value.trim();
     const save = document.getElementById("userSavePassword").checked;
 
@@ -875,15 +854,11 @@ function userLogin() {
         return;
     }
 
-    if (save) {
-        localStorage.setItem("bv_userPassword_" + selected, entered);
-    } else {
-        localStorage.removeItem("bv_userPassword_" + selected);
-    }
+    if (save) localStorage.setItem("bv_userPassword_" + selected, entered);
+    else localStorage.removeItem("bv_userPassword_" + selected);
 
-    // USER MODE
     isAdmin = false;
-    activeUser = selected;
+    activeUser = selected; // EXACTLY matches node under sadhana (e.g., "Kalki")
 
     document.getElementById("welcomePage").style.display = "none";
     document.getElementById("userSelectPage").style.display = "none";
@@ -893,9 +868,8 @@ function userLogin() {
 
     const mainSelect = document.getElementById("userName");
     mainSelect.value = selected;
-    mainSelect.disabled = true; // user cannot change identity via dropdown
+    mainSelect.disabled = true;
 
-    // Enable Save for user
     document.getElementById("btnSave").disabled = false;
 
     showWelcomeMessage(selected);
@@ -912,10 +886,7 @@ function logout(message) {
     activeUser = null;
     isAdmin = false;
 
-    if (sessionTimer) {
-        clearTimeout(sessionTimer);
-        sessionTimer = null;
-    }
+    if (sessionTimer) clearTimeout(sessionTimer);
 
     document.querySelector(".container").style.display = "none";
     document.getElementById("welcomePage").style.display = "flex";
@@ -941,6 +912,7 @@ function startSessionTimer() {
         logout("Session timed out. You have been logged out.");
     }, 30 * 60 * 1000);
 }
+
 /* WEEK LOGIC */
 function getMonday(date) {
     const d = new Date(date);
@@ -995,15 +967,19 @@ function changeWeek(direction) {
 }
 
 function setCurrentWeek() {
-    const today = new Date();
-    currentWeekStart = getMonday(today);
-
+    currentWeekStart = getMonday(new Date());
     updateWeekInfo();
 
     document.getElementById("weekDropdown").value = "";
 
     clearInputs();
     highlightButton("btnCurrent");
+
+    const userKey = getUserKey();
+    if (!userKey) {
+        showStatus("Please log in before loading.");
+        return;
+    }
 
     loadChart();
     loadPreviousWeeksDropdown();
@@ -1021,7 +997,7 @@ function getUserKey() {
         const v = document.getElementById("userName").value;
         return v || null;
     }
-    return activeUser;
+    return activeUser || null;
 }
 
 function getFullName() {
@@ -1033,7 +1009,6 @@ function showStatus(msg, isError=false) {
     el.textContent = msg;
     el.style.color = isError ? "#fecaca" : "#d1fae5";
 }
-
 function collectDataFromUI() {
     const data = {};
     document.querySelectorAll(".cell-input").forEach(input => {
@@ -1134,6 +1109,7 @@ function loadPreviousWeeksDropdown() {
             });
     });
 }
+
 /* SAVE / LOAD */
 function saveChart() {
     if (isAdmin) {
@@ -1142,7 +1118,10 @@ function saveChart() {
     }
 
     const userKey = getUserKey();
-    if (!userKey) return showStatus("Please select your name before saving.", true);
+    if (!userKey) {
+        showStatus("Please log in before saving.", true);
+        return;
+    }
 
     const weekKey = getWeekKey();
     const data = collectDataFromUI();
@@ -1157,7 +1136,10 @@ function saveChart() {
 
 function loadChart() {
     const userKey = getUserKey();
-    if (!userKey) return showStatus("Please select your name before loading.", true);
+    if (!userKey) {
+        showStatus("Please log in before loading.", true);
+        return;
+    }
 
     const dropdownValue = document.getElementById("weekDropdown").value;
     if (dropdownValue) {
@@ -1214,9 +1196,9 @@ function highlightButton(btnId) {
 }
 
 /* INITIALIZE */
-highlightButton("btnCurrent");
-setCurrentWeek();
-
+window.addEventListener("load", () => {
+    updateWeekInfo();
+});
 /* AUTO-SAVE (NOT IN VIEW MODE, NOT IN ADMIN MODE) */
 setInterval(() => {
     if (isAdmin) return; // admin must never auto-save
@@ -1248,4 +1230,5 @@ setInterval(() => {
 
 </body>
 </html>
+
 
